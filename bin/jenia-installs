@@ -1,7 +1,17 @@
 #!/bin/bash
 
-#virtualization
-sudo apt-get install -y qemu-kvm libvirt-bin virtinst bridge-utils cpu-checker
+if [[ $UID != 0 ]]
+then
+	echo Error! Run me as root.
+	exit 1
+fi
 
-sudo apt-get install -y terminator mc meld vim git 
+read -p "Install virtualization packages? " -n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+	apt-get install -y qemu-kvm libvirt-bin virtinst bridge-utils cpu-checker
+fi
+
+
+apt-get install -y terminator mc meld vim git wireshark tree
 

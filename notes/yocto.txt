@@ -9,7 +9,7 @@ sudo apt-get install -y qemu-kvm libvirt-bin virtinst bridge-utils cpu-checker
 #install yocto prerequisites
 sudo apt-get -y install socat gawk wget git-core diffstat unzip texinfo build-essential chrpath libsdl1.2-dev xterm libncurses5-dev g++
 
-#get yocto sources
+#get yocto sources Atom Web page https://www.yoctoproject.org/downloads/bsps/jethro20/valley-island
 wget http://downloads.yoctoproject.org/releases/yocto/yocto-2.0.2/poky-jethro-14.0.2.tar.bz2
 wget http://downloads.yoctoproject.org/releases/yocto/yocto-2.0/machines/valleyisland/valleyisland-4.0-jethro-2.0.tar.bz2?bsp=valley_island
 

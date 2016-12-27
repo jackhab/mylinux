@@ -1,0 +1,1 @@
+ssh-bc 192.168.122.10 192.168.122.20 'cd ~/workspace/trunk && svn up && scons all'

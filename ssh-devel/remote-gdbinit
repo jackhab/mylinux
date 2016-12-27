@@ -1,0 +1,4 @@
+#target remote mr-10:1234
+set sysroot /home/jenia/mnt/mr-10/
+set substitute-path /root /home/jenia/mnt/mr-10/root
+

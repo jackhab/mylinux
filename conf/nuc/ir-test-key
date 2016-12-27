@@ -1,0 +1,12 @@
+#!/bin/bash
+
+systemctl stop eventlircd.service
+systemctl stop xbmc.service
+
+ir-keytable -c -p  NEC,RC-5,RC-6,JVC,SONY,SANYO,LIRC,RC-5-SZ,SHARP,XMP,other
+
+ir-keytable
+ir-keytable -c
+ir-keytable -t
+
+

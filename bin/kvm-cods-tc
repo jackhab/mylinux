@@ -1,0 +1,23 @@
+#!/bin/bash
+
+MrAn=30
+AnCl=10
+#Loss="loss 0.01%"
+
+
+
+#MR => AN
+ssh mr-10 "tc qdisc del dev eth1 root 2>/dev/null; tc qdisc add dev eth1 root netem delay ${MrAn}ms"
+
+#AN => MR
+ssh an-20 "tc qdisc del dev eth2 root 2>/dev/null; tc qdisc add dev eth2 root netem delay ${MrAn}ms"
+
+
+#AN => CLIENT
+ssh an-20 "tc qdisc del dev eth1 root 2>/dev/null; tc qdisc add dev eth1 root netem delay ${AnCl}ms $Loss"
+
+
+#CLIENT => AN
+ssh client-2 "tc qdisc del dev eth1 root 2>/dev/null; tc qdisc add dev eth1 root netem delay ${AnCl}ms"
+
+ssh-bc 192.168.122.10 192.168.122.20 192.168.122.2 "tc qdisc show | grep netem"

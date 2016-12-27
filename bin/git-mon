@@ -1,0 +1,104 @@
+#!/bin/bash
+
+trap 'tput cnorm ; kill $(jobs -p)' EXIT
+
+
+Main() {
+    git log -n 1 &> /dev/null || { echo Nothing to git in this directory ; exit 1 ; }
+
+	#hide cursor
+	tput civis
+
+    Prev="/tmp/git-mon-prev"
+    Now="/tmp/git-mon-now"
+
+    rm -rf $Prev $Now
+
+    #update remote repo log in background
+    GitFetch &
+
+    while true; do
+        Lines=$(tput lines)
+        Cols=$(tput cols)
+
+        #save current git status
+        GitLog &> $Now
+
+        #include screen size with status so that redraw will be triggered on terminal resize
+        echo $Lines $Cols >> $Now
+
+        #print on change only to prevent screen flicker
+        diff $Now $Prev &>/dev/null || { tput clear ; GitLog ; }
+
+        mv -f $Now $Prev &>/dev/null
+
+        sleep 2
+    done
+}
+
+
+GitLog() {
+    #CmdLog="git log -100 --decorate=short --oneline --graph --branches --remotes --tags"
+    #CmdLog="git log -100 --all --graph --decorate=short --color \
+    # --format=format:\"%w($Cols,1,15)%C(auto)%h %C(white bold)%s%C(reset)%C(auto)%d %<(12,trunc)%ci %<(5,trunc)%ae\""
+
+    MessLen=$(($Cols-20))
+    LDate="%<(18,trunc)%ci"
+    LName="%<(5,trunc)%ae"
+    LHash="%C(auto)%h"
+    #LMess="%<($(($Cols-12)),trunc)%C(white bold)%s%C(reset)"
+    #LMess="%<($MessLen,trunc)%C(white bold)%s%C(reset)"
+    LMess="%C(white bold)%s%C(reset)"
+    LRefs="%C(auto)%d"
+    LWrap1="%w($(($Cols-3)),1,20)"
+    CmdLog="git log -100 --all --graph --decorate=short --color \
+     --format=format:\"$LWrap$LHash $LMess %n $LRefs $LDate $LName \""
+
+    #suppress status error in case there is no working tree
+    CmdStat="git status -s -b -u 2>/dev/null"
+
+    #how long is the status?
+    StatusLines=$(eval $CmdStat | CountLines)
+
+    #how much lines left for log?
+    LogLines=$(($Lines - $StatusLines))
+
+    #how long is the log including wrapped lines?
+    RealLogLines=$(eval $CmdLog --color=never | head -n $LogLines | CountLines)
+
+    #adjust log lines considering wrapped lines
+    LogLines=$(($LogLines - $RealLogLines + $LogLines - 3))
+
+    echo
+
+    eval $CmdLog --color=always | head -n $LogLines
+
+    echo
+
+    eval $CmdStat
+
+    #a marker to show the output is not truncated
+    printf "%*s" $(( (3 + $Cols) / 2)) ___
+}
+
+
+GitFetch() {
+    while true ; do
+        git fetch --all --prune &> /dev/null
+        sleep 3
+    done
+}
+
+
+CountLines() {
+    fold -w $Cols | wc -l
+}
+
+
+Main
+
+
+#temp old junk
+#sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" |
+#printf %${Cols}s _ | tr ' ' _
+#echo $Lines $StatusLines $LogLines $RealLogLines

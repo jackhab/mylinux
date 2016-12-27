@@ -1,0 +1,117 @@
+[global_config]
+  enabled_plugins = ,
+  inactive_color_offset = 1.0
+[keybindings]
+  broadcast_all = None
+  toggle_zoom = <Primary><Shift>x
+  broadcast_group = None
+  broadcast_off = <Primary><Shift>b
+[profiles]
+  [[default]]
+    word_chars = "-A-Za-z0-9,./?%&#$:_"
+    palette = "#000000:#aa0000:#00aa00:#aa5500:#1177e5:#aa00aa:#00aaaa:#aaaaaa:#555555:#ff5555:#55ff55:#ffff55:#5555ff:#ff55ff:#55ffff:#ffffff"
+    background_image = /home/jenia/codereview.jpg
+    background_darkness = 1.05
+    scrollback_lines = 10000
+    use_system_font = False
+    scroll_background = False
+    scroll_on_output = False
+    font = Monospace 11
+    background_color = "#141517"
+    foreground_color = "#c8c8c8"
+  [[monitor]]
+    background_image = None
+    background_type = transparent
+[layouts]
+  [[default]]
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+      profile = default
+    [[[window0]]]
+      type = Window
+      parent = ""
+  [[mr-client]]
+    [[[child0]]]
+      position = 1920:0
+      type = Window
+      order = 0
+      parent = ""
+      size = 1920, 1058
+    [[[child1]]]
+      position = 684
+      type = VPaned
+      order = 0
+      parent = child0
+    [[[child2]]]
+      position = 1565
+      type = HPaned
+      order = 0
+      parent = child1
+    [[[child5]]]
+      position = 1239
+      type = HPaned
+      order = 1
+      parent = child1
+    [[[terminal3]]]
+      profile = default
+      command = ssh 10.1.0.65
+      type = Terminal
+      order = 0
+      parent = child2
+    [[[terminal4]]]
+      profile = default
+      command = watch echo 4
+      type = Terminal
+      order = 1
+      parent = child2
+    [[[terminal7]]]
+      profile = default
+      command = watch echo 7
+      type = Terminal
+      order = 1
+      parent = child5
+    [[[terminal6]]]
+      profile = default
+      command = watch echo 6
+      type = Terminal
+      order = 0
+      parent = child5
+[plugins]
+  [[CustomCommandsMenu]]
+    [[[log-clear]]]
+      command = cods log-clear
+      enabled = True
+      name = log-clear
+    [[[stop]]]
+      command = cods stop
+      enabled = True
+      name = stop
+    [[[MR & ArpSaver]]]
+      command = MrStreamManager ;  ArpSaver
+      enabled = True
+      name = MR & ArpSaver
+    [[[start]]]
+      command = cods start
+      enabled = True
+      name = start
+    [[[scons mr debug=1]]]
+      command = scons mr debug=1
+      enabled = True
+      name = scons mr debug=1
+    [[[scons mr debug=0]]]
+      command = scons mr debug=0
+      enabled = True
+      name = scons mr debug=0
+    [[[Test]]]
+      command = ls
+      enabled = True
+      name = Test
+    [[[restart]]]
+      command = cods restart
+      enabled = True
+      name = restart
+    [[[LAST COMMAND]]]
+      command = !!
+      enabled = True
+      name = LAST COMMAND

@@ -1,0 +1,29 @@
+#!/bin/bash
+
+set -x
+set -e
+
+
+#create a namespace
+ip netns add cods
+
+#add an interface pair
+ip link add veth0 type veth peer name veth1
+
+#bright up one endpoint
+ip link set veth0  up
+
+#move second endpoint to the namespace
+ip link set veth1 netns cods
+
+#bring up second endpoint
+ip netns exec cods ip link set veth1  up
+
+#configure IP inside the namespace
+ip netns exec cods ip addr add 192.168.100.3/24 dev veth1
+ip netns exec cods ip route add default via 192.168.100.1
+
+#connect VM to the new namespace via endpoint in global namespace
+brctl addif an20up veth0
+
+

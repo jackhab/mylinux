@@ -1,0 +1,38 @@
+
+# Please make this file available to others
+# by sending it to <lirc@bartelmus.de>
+#
+# this config file was automatically generated
+# using lirc-0.9.0(default) on Fri Oct  2 19:39:07 2015
+#
+# contributed by 
+#
+# brand:                       missing-keys
+# model no. of remote control: 
+# devices being controlled by this remote:
+#
+
+begin remote
+
+  name  missing-keys
+  flags RAW_CODES|CONST_LENGTH
+  eps            30
+  aeps          100
+
+  gap          44920
+
+      begin raw_codes
+
+          name KEY_DVD
+             8584    4157     616    1501     616     460
+              616    1501     616     468     598     468
+              598    1519     607     468     598    1501
+              616     468     598    1501     616     460
+              616    1501     616    1501     616     468
+              598    1510     607     468     598    1501
+              616     468     598    1510     598     477
+              598
+
+      end raw_codes
+
+end remote

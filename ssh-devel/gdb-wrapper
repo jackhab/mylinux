@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [[ "$1" == "--version" ]] ; then
+    gdb --version | sed -r 's/(.+Fedora )(.+)/\1(\2)/g'
+else
+    gdb --init-eval-command= "$@"
+fi
+
+echo $@ >> /home/jenia/xxx

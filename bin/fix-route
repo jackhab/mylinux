@@ -1,0 +1,8 @@
+#!/bin/bash
+
+sudo ip route del default via 10.0.0.138 dev p2p1
+sudo ip route del 10.0.0.0/24 dev p2p1
+
+sudo ip route add 10.0.0.0/24 dev mrup
+sudo ip route add default via 10.0.0.138 dev mrup
+

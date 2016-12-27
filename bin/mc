@@ -1,0 +1,9 @@
+#!/bin/bash
+
+Title="MC File Manager"
+
+wmctrl -a "$Title" && exit
+
+gnome-terminal --profile=mc --hide-menubar --geometry 180x60+300-28 -e "/usr/bin/mc \"$PWD\" \"$HOME\""
+sleep 0.5
+wmctrl -r :ACTIVE: -N "$Title"

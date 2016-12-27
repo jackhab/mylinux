@@ -1,0 +1,159 @@
+#!/bin/bash
+
+
+#TODO: select TTY to redirect output
+
+
+main() {
+    ReadConfFile
+
+    #save current terminal setup
+    SaveTty=$(stty -g)
+
+    #reset terminal back on exit
+    trap DisableMouse EXIT
+
+    #always execute commands locally untill user changes host
+    Host=$HOSTNAME
+
+    #capture mouse clicks, check in which line, execute corresponding menu item
+    while true
+    do
+        PrintMenu
+        EnableMouse
+
+        #read six characters from stdin
+        x=$(dd bs=1 count=6 2>/dev/null)
+
+        m1=${x#???}    #remove the first 3 characters
+        m2=${x#????}   #remove the first 4 characters
+        m3=${x#?????}  #remove the first 5 characters
+
+        #convert characters to decimal values
+        eval "$(printf "mb=%d mx=%d my=%d" "'$m1" "'$m2" "'$m3")"
+
+        #values > 127 are signed
+        [ $mx -lt 0 ] && MOUSEX=$(( 223 + $mx )) || MOUSEX=$(( $mx - 32 ))
+        [ $my -lt 0 ] && MOUSEY=$(( 223 + $my )) || MOUSEY=$(( $my - 32 ))
+
+        Idx=$(($MOUSEY-1))
+        tput reset
+
+        #first menu item selects local host of remote IP for SSH
+        if [[ "$Idx" == "0" ]] ; then
+            DisableMouse
+
+            read -p 'Run commands on: ' Host
+
+            if [[ -z "$Host" ]] ; then
+                #empty input: use local host
+                Host=$HOSTNAME
+            fi
+
+            continue
+        fi
+
+        #second menu item edits the menu
+        if [[ "$Idx" == "1" ]] ; then
+            vim $ConfFile
+            ReadConfFile
+            continue
+        fi
+
+        Cmd="${Menu[$Idx]}"
+
+        if [[ -z "$Cmd" ]] ; then
+            continue
+        fi
+
+        if [[ $Host != $HOSTNAME ]] ; then
+            Cmd="ssh $Host '$Cmd'"
+        fi
+
+        DisableMouse
+        echo "$Cmd"
+        eval "$Cmd"
+        sleep 3
+
+    done
+
+}   #end main()
+
+
+ReadConfFile() {
+    #
+    #read menu from configuration file
+    #
+
+    ConfFile="$HOME/.$(basename $0)"
+    if [[ -f $ConfFile ]] ; then
+        readarray FileMenu < $ConfFile
+    else
+        echo "Put your commands in $ConfFile, one command per line and launch me again."
+        exit 1
+    fi
+}
+
+
+DisableMouse() {
+    #reset terminal
+    tput reset
+
+    #enable line wrapping
+    tput smam
+
+    #restore saved terminal state
+    stty $SaveTty
+}
+
+
+PrintMenu() {
+    #
+    #print menu from configuration array
+    #
+
+    clear
+
+    #disable line wrapping
+    tput rmam
+
+    #%? strips last char because readarray keeps LF when reading from file;
+    #host and edit items are always added to menu top
+    Menu=($HOSTNAME "edit menu" "${FileMenu[@]%?}")
+
+    #for menu highlighting
+    if tty -s ; then
+        Norm=`echo -e '\033[0m'`
+        Bold=`echo -e '\033[1m'`
+    fi
+
+    #print menu
+    for i in "${!Menu[@]}" ; do
+        (( $i < 2 )) && echo -n $Bold || echo -n $Norm
+        echo "${Menu[$i]}"
+    done
+}
+
+
+EnableMouse() {
+    #
+    #enable reading mouse position in terminal
+    #
+
+    #diable line buffering
+    stty -echo -icanon
+
+    #there is an escape char between quotes, it might be invisible in the editor
+    ESC=""
+
+    #enable mouse click reporting
+    printf "${ESC}[?9h"
+
+    #turn off cursor
+    printf "${ESC}[?25l"
+}
+
+
+main
+
+###

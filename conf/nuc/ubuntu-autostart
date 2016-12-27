@@ -1,0 +1,7 @@
+#!/bin/bash
+
+lircd --device /dev/lirc0 --driver default
+
+
+
+

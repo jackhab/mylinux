@@ -1,0 +1,41 @@
+-------------------------------------------------
+WORKS WITH MY-MS-REMOTE.CONF INCLUDED IN LIRCD.CONF
+-------------------------------------------------
+lircd --nodaemon --device /dev/lirc0 --driver default
+
+
+-------------------------------------------------
+~/.lircrc
+-------------------------------------------------
+NOTE: irexec must be launched in graphical environment, not rc.local
+
+begin
+remote = recordremote
+button = KEY_RIGHT
+prog   = irexec
+config = xdotool key Up 
+end
+
+-------------------------------------------------
+SHOW ALL KEY NAMES
+-------------------------------------------------
+irrecord --list
+
+
+-------------------------------------------------
+RECORD KEYS FROM REMOTE
+-------------------------------------------------
+irrecord -d /dev/lirc0 keys.conf
+
+
+-------------------------------------------------
+SHOW KEYS AFTER LOADING LIRCD
+-------------------------------------------------
+irw
+
+
+-------------------------------------------------
+SHOW KEYS RECOGNIZED FROM LIRCRC
+-------------------------------------------------
+ircat irexec
+

@@ -1,0 +1,64 @@
+#!/bin/bash
+
+################################################################################
+DefineGraph() {
+cat <<GRAPH_TEXT
+digraph G {
+a -> b
+b -> c
+a -> f
+
+
+
+
+
+}
+GRAPH_TEXT
+}   #end of DefineGraph()
+################################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+: <<EXAMPLE_GRAPH
+digraph G {
+        node [shape = "record"]
+        edge [arrowhead = "empty" taillabel = "inherits" ]
+        Animal [label = "{Animal|+ name : string\l+ age : int\l|+ die() : void\l}"]
+        Dog [label = "{Dog|+ bark() : void\l}"]
+        Dog -> Animal
+
+EXAMPLE_GRAPH
+
+
+
+
+
+
+
+
+
+
+
+
+
+Fmt="png"
+OutPic="/tmp/dot-graph.$Fmt"
+OutDot="/tmp/dot-graph.dot"
+
+DefineGraph | tee $OutDot | dot -T$Fmt -o$OutPic && xdg-open $OutPic

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+
+#MR => AN
+ssh mr-10 "tc qdisc del dev eth1 root"
+
+#AN => MR
+ssh an-20 "tc qdisc del dev eth2 root"
+
+
+#AN => CLIENT
+ssh an-20 "tc qdisc del dev eth1 root"
+
+#CLIENT => AN
+ssh client-2 "tc qdisc del dev eth1 root"
+
+ssh-bc 192.168.122.10 192.168.122.20 192.168.122.2 "tc qdisc show"

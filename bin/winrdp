@@ -1,0 +1,1 @@
+rdesktop 192.168.122.7 -u jenia -p jeniapass -g 1920x1080 -D -x 0x80 -r clipboard:PRIMARYCLIPBOARD -P -r sound:local &

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+echo try to switch off tx offloading on virbr1
+
+
+for o in rx tx sg tso ufo gso gro lro rxvlan txvlan ntuple rxhash
+do
+	for i in `ifconfig | grep -Po '^\w+'`
+	do
+    
+        ssh client-2 timeout 1 curl -o /dev/null 192.168.100.1/1
+#		echo ; echo ethtool -K $i $o off
+		sudo ethtool -K $i $o off
+        echo -----------------------------------------
+        
+	done
+done
+
+
+

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+Hosts="mr-10 an-20 tk-30"
+
+for h in $Hosts ; do
+    sudo virsh -c qemu:///system start $h
+done
+
+watch -t -n 1 "for h in $Hosts ; do ping -c1 -w1 \$h ; echo --- ; echo --- ; done | \grep -e loss -e ---"

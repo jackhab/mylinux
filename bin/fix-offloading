@@ -1,0 +1,12 @@
+#!/bin/bash
+for o in rx tx sg tso ufo gso gro lro rxvlan txvlan ntuple rxhash
+do
+	for i in `ifconfig | grep -Po '^\w+'`
+	do
+		echo ; echo ethtool -K $i $o off
+		sudo ethtool -K $i $o off
+	done
+done
+
+
+

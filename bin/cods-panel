@@ -1,0 +1,53 @@
+#!/bin/bash
+
+Session='codspanel'
+
+pgrep -x tmux > /dev/null && tmux has-session -t $Session && ( tmux attach -t $Session ; exit )
+
+
+
+Red=#[fg=red]
+Def=#[default]
+
+ExeList=$(service codsd status | sed -nr 's/^(\w+).+/-C \1/gp' | xargs)
+WatchCmd="watch -t \"ps h -o cmd -o etime= $ExeList\" \| column -t"
+
+
+
+
+
+
+
+tmux new-session 'cods log-tail' \;\
+    split-window -h -l 27 "$WatchCmd" \;\
+    split-window -v -p 80 "echo asdfasdf; read" \;\
+    rename $Session \;\
+    bind-key -n F1 new-window 'cods start' \;\
+    bind-key -n F2 new-window 'cods restart' \;\
+    bind-key -n F3 new-window 'cods stop' \;\
+    bind-key -n F4 new-window 'cods log-clear > /dev/null' \;\
+    bind-key -n F5 new-window 'cods log-set-level INFO' \;\
+    bind-key -n F6 new-window 'cods log-set-level DEBUG MR_HTTP_SESSION ; cods log-set-level DEBUG MR_TCP_REDIRECTOR' \;\
+    bind-key -n F7 run-shell 'cods log-errors' \;\
+    bind-key -n F8 new-window 'cods bridge-up' \;\
+    bind-key -n F9 new-window 'cods bridge-down' \;\
+    bind-key -n F12 kill-session -t $Session \;\
+    set-option -w display-time 1000 \;\
+    set-option -w status-left-length 150 \;\
+    set-option -w mouse-resize-pane on \;\
+    set-option -w mode-mouse on \;\
+    set-option -w status-left "\
+$Red F1$Def START \
+$Red F2$Def RESTART \
+$Red F3$Def STOP \
+$Red F4$Def CLEAR LOG \
+$Red F5$Def INFO LOG \
+$Red F6$Def DEBUG LOG \
+$Red F7$Def ERROR LOG \
+$Red F8$Def BRIDGE UP \
+$Red F9$Def BRIDGE DOWN \
+$Red F12$Def QUIT ||| " \;\
+    select-pane -t 0
+
+#    split-window -h -p 15 'watch -t service codsd status' \;\
+

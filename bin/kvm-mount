@@ -1,0 +1,66 @@
+#!/bin/bash
+#set -x
+
+#where to mount KVM guests
+MountHome="${HOME}/mnt/kvm"
+
+#via which network to mount guests
+MainNet="192.168.122."
+
+#which guest directories to mount
+DirList="/etc /root /home /opt"
+
+#mount all running guests
+GuestList=$(sudo virsh list --name)
+
+
+
+IsDirEmpty()
+{
+    if [[ "$(ls -A $1)" ]] ; then
+       return 1
+    else
+       return 0
+    fi
+}
+
+
+for Guest in $GuestList
+do
+    #find the MAC of the interface connected to the MainNet
+    MainMac=$(sudo virsh dumpxml $Guest | grep "source network='default'" -B1 | grep -Po '..:..:..:..:..:..')
+
+    #find interface name from its MAC
+    Ip=$(
+        for i in {1..255}
+        do
+            timeout 0.5 arping -I virbr0 -D 192.168.122.$i &
+        done  | grep -Poi "\d+\.\d+\.\d+\.\d+(?= \[$MainMac\])"
+
+        sleep 0.5
+    )
+
+    #mount each directory
+    echo "Mounting $DirList into $MountHome/$Guest via $Ip"
+    for RemoteDir in $DirList ; do
+        DashDir=${RemoteDir////-}
+        DashDir=${DashDir/-//}
+        Dir="$MountHome/$Guest$DashDir"
+        mkdir -p $Dir
+
+        if IsDirEmpty $Dir ; then
+            #sshfs -o idmap=file,uidfile=<(echo $USER:0),gidfile=<(echo $USER:0) root@${Ip}:/ $Dir
+            sshfs root@$Ip:$RemoteDir $Dir
+        else
+            echo "$Dir is not empty"
+            continue
+        fi
+
+        if IsDirEmpty $Dir ; then
+            echo "Failed to mount $Guest:$RemoteDir"
+        fi
+    done
+
+    echo
+
+done    #for Guest in $GuestList

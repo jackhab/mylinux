@@ -1,0 +1,11 @@
+#!/bin/bash
+
+Class="Kodi.Kodi"
+
+wmctrl -x -a $Class && exit
+
+kodi &
+
+sleep 3
+
+wmctrl -x -a $Class && exit

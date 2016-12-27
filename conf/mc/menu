@@ -1,0 +1,14 @@
+shell_patterns=0
+
++ ! t t
+1       Short file name to clipboard
+	echo -n %f | xclip -in -selection clipboard
+
++ ! t t
+2       Full file name to clipboard
+	echo -n %d/%f | xclip -in -selection clipboard
+
+
++ ! t t
+3       Directory name to clipboard
+	echo -n %d/%f | xclip -in -selection clipboard

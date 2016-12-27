@@ -1,0 +1,31 @@
+#!/bin/bash
+
+HostList="mr-70 an-71"
+
+
+Check() {
+
+    #define "green" and "normal" variables if running in interactive console
+    tty -s && { G=`echo -e '\033[32m'` ; N=`echo -e '\033[0m'` ; }
+    
+    for Ip in $@
+	do
+	    echo \[$Ip\]
+
+        #query CODS host status
+        #SSH options are to prevent questions and warnings
+	    ssh -o UserKnownHostsFile=/dev/null \
+	        -o StrictHostKeyChecking=no \
+	        -o LogLevel=quiet \
+	        $Ip cods status 
+	        #$Ip service codsd status 
+            
+	    echo
+
+	done 
+    #| sed -r -e "s/(.+)is running.../${G}\1 UP${N}/g" -e "s/dead but pid file exists|is stopped//g" 
+}
+export -f Check
+
+
+watch -ctn 1 Check $HostList

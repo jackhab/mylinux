@@ -1,0 +1,25 @@
+#!/bin/bash
+
+Host=$(zenity --title 'Select Eclipse host' \
+                --list --hide-header --column '' --column ''    \
+                --hide-column 1 --print-column 1 \
+                "local" "LOCAL" \
+                "mr-70" "MR-70 KVM" \
+                "an-71" "AN-71 KVM" \
+                "select" "OTHER MACHINE")
+
+
+
+if [[ $Host == "local" ]] ; then
+    /opt/eclipse/eclipse
+    exit
+fi
+
+if [[ $Host == "select" ]] ; then
+    Host=$(zenity --title "Enter SSH destination" --entry --text "")
+fi
+
+
+[[ -z $Host ]] && exit
+
+sshpass -p saguna ssh -f -Y root@${Host} /opt/eclipse/eclipse

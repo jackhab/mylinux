@@ -3,5 +3,8 @@
 #virtualization
 sudo apt-get install -y qemu-kvm libvirt-bin virtinst bridge-utils cpu-checker
 
-sudo apt-get install -y terminator mc meld vim git 
+sudo apt-get install -y terminator mc meld vim git openssh-server
+
+update-locale LC_TIME=en_US.UTF-8
+
 

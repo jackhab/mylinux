@@ -152,7 +152,9 @@ SshIp=${SshCon[2]}${SshCon[2]:+ }
 
 
 #if git is installed show git status in prompt
-if . /usr/share/git-core/contrib/completion/git-prompt.sh 2>/dev/null ; then
+#CentOS: if . /usr/share/git-core/contrib/completion/git-prompt.sh 2>/dev/null ; then
+
+if __git_ps1 2>&1 >/dev/null ; then
     #show unstaged (*) and staged (+) changes
     export GIT_PS1_SHOWDIRTYSTATE="+"
     #show stashed ($) changes

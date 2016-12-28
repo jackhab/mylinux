@@ -1,0 +1,30 @@
+--------------------------------------------------
+MANUAL
+--------------------------------------------------
+http://www.frozentux.net/iptables-tutorial/iptables-tutorial.html
+
+
+--------------------------------------------------
+Add port forwarding:
+--------------------------------------------------
+iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to 8080
+
+
+--------------------------------------------------
+Remove port forwarding (replace -A with -D):
+--------------------------------------------------
+iptables -t nat -D PREROUTING -p tcp --dport 80 -j REDIRECT --to 8080
+
+
+--------------------------------------------------
+Drop packet by content
+--------------------------------------------------
+iptables -A PREROUTING -t mangle -i eth0 -m connmark --mark 1 -j ACCEPT
+iptables -A PREROUTING -t mangle -i eth0 -m string --algo bm --string "6ZAARI19R0" -j CONNMARK --set-xmark 1
+iptables -A PREROUTING -t mangle -i eth0 -m connmark --mark 1 -j DROP
+
+
+--------------------------------------------------
+Forward packets from 10.0.0.10 via NAT to eth0
+--------------------------------------------------
+iptables -t nat -A POSTROUTING -o eth0 -s 10.0.0.10 -j MASQUERADE

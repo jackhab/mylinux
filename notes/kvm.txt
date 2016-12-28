@@ -1,0 +1,17 @@
+--------------------------------------------------
+CONVERT DISK IMAGE FORMAT:
+--------------------------------------------------
+qemu-img convert -p -O raw he-sim.qcow2 he-sim.raw
+
+
+--------------------------------------------------
+ENABLE SOFT SHUTDOWN IN KVM
+--------------------------------------------------
+yum install acpid
+
+
+--------------------------------------------------
+CHECKLIST
+--------------------------------------------------
+Consistent MAC addresses matching SSH IP
+Static IP for every machine

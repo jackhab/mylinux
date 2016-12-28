@@ -1,0 +1,167 @@
+--------------------------------------------------
+REPO
+--------------------------------------------------
+create local working repo
+    git init
+
+create remote repo: always should be bare
+    git --bare init
+
+convert non-bare working repo into bare one
+    git clone --bare -l non_bare_repo new_bare_repo
+
+clone a repo
+    git clone https://github.com/libgit2/libgit2
+
+show remote repos
+    git remote -v
+
+add a new remote repo
+    git remote add local_proj /opt/git/project.git
+    git remote add pb https://github.com/paulboone/ticgit
+    git fetch pb
+
+
+--------------------------------------------------
+CONFIGURATION
+--------------------------------------------------
+git config --list
+git config --global user.name "John Doe"
+git config --global user.email johndoe@example.com
+git config --global core.editor vim
+git config --global core.pager "cat"
+git config --global --add difftool.prompt false
+git config --global mergetool.meld.cmd 'meld $LOCAL $MERGED $REMOTE'
+git config --global difftool.meld.cmd 'meld $LOCAL $REMOTE'
+git config branch.master.rebase true
+git config --global branch.autosetuprebase always
+#remember repo password for 15 minutes
+git config --global credential.helper cache
+
+--------------------------------------------------
+DIFF
+--------------------------------------------------
+show unstaged changes
+    git diff
+
+show staged changes
+    git diff --staged
+
+show changes in line, whole functions, no whitespace changes
+    git diff --color-words -W -w
+
+show changes of commit with its parent
+git diff COMMIT^!
+
+
+--------------------------------------------------
+COMMIT
+--------------------------------------------------
+commit files
+    git add *.c
+    git add myfile
+    git commit -m 'initial project version'
+    git status -s
+
+commit all files, skip staging
+    git commit -a -m 'added new benchmarks'
+
+change commit message
+    git commit --amend -m "New commit message"
+
+
+--------------------------------------------------
+REVERT
+--------------------------------------------------
+revert staged changes in working dir
+    git reset --
+
+revert unstaged changes in working dir
+    git checkout -- .
+
+discard unstaged changes in file
+    git checkout myfile
+
+get two-commits old myfile into stage, keeps working dir untouched
+    git reset HEAD~2 myfile
+
+get two commits old myfile into working dir, keeps stage and HEAD untouched
+    git checkout HEAD~2 myfile
+
+
+--------------------------------------------------
+REMOVE
+--------------------------------------------------
+remove staged file, keep it working dir
+    git rm --cached myfile
+
+
+--------------------------------------------------
+BRANCH
+--------------------------------------------------
+list all branches verbosely
+    git branch -a -v
+
+list obsolete merged branches
+    git branch --merged
+
+list remote branches
+ git branch -r
+
+create a new branch, without switching to it
+    git branch BRANCH
+
+switch to branch
+    git checkout BRANCH
+
+create and switch to branch
+    git checkout -b BRANCH
+
+push local branch to origin
+    git push -u origin BRANCH[:branches/user/BRANCH]
+
+checkout and track a branch from origin
+    git checkout -t origin/BRANCH
+
+merge branch as one commit
+    git merge BRANCH --squash
+
+merge changes from remote repo
+    git pull --rebase
+
+delete branch
+    git branch -d BRANCH
+
+delete remote branch
+    git push origin --delete BRANCH
+
+
+--------------------------------------------------
+LOG
+--------------------------------------------------
+log with brach pointers
+    git log --oneline --decorate
+
+log changes in lines 1-5
+    git log -L 1,5:main.cpp
+
+log changes containing 'return'
+    git log -L /return/:main.cpp
+
+--------------------------------------------------
+STASH
+--------------------------------------------------
+save to stash
+    git stash
+
+show stashes
+    git stash list
+
+pop last stash
+    git stash pop
+
+restore files without re-staging them
+    git stash apply
+
+restore files with staging state
+    git stash apply --index

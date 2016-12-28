@@ -1,0 +1,7 @@
+Env['RPATH'] = Literal('\'$$ORIGIN/../lib:lib\'')
+
+ldd exe-file               resolve and list libraries
+
+objdump -p exe-file        show RPATH
+
+g++ -o exe-file -Wl,-rpath='$ORIGIN/../lib:lib'

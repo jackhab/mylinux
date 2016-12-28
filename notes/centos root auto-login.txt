@@ -1,0 +1,11 @@
+In /etc/pam.d/gdm DISABLE the line:
+
+auth required pam_succeed_if.so user != root quiet
+
+
+
+In /etc/gdm/custom.conf ADD:
+
+[daemon]
+AutomaticLoginEnable=true
+AutomaticLogin=username

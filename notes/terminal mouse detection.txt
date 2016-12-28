@@ -1,0 +1,36 @@
+--------------------------------------------------
+ready to use solution
+--------------------------------------------------
+http://cfajohnson.com/shell/?2005-07-15_mousetraps
+
+
+
+The xterm terminal emulator defines some control sequences to do mouse tracking, you can learn more about them in the section Mouse Tracking in the document ctlseqs for the xterm distribution. If you have xterm installed, you'll probably have a copy at /usr/share/doc/xterm/ctlseqs.txt.gz or a similar path.
+
+Most terminal emulators running on the X Window System (e.g: Konsole, gnome-terminal, eterm, ...) understand at least some of these control sequences. If you want to use them directly on one of Linux's virtual terminals, you'll probably have to run gpm(8).
+
+There are several control sequences for enabling and disabling mouse movement reporting:
+
+    9 -> X10 mouse reporting, for compatibility with X10's xterm, reports on button press.
+    1000 -> X11 mouse reporting, reports on button press and release.
+    1001 -> highlight reporting, useful for reporting mouse highlights.
+    1002 -> button movement reporting, reports movement when a button is pressed.
+    1003 -> all movement reporting, reports all movements.
+
+The control sequence is CSI ? number h for enabling and CSI ? number l for disabling. CSI is either ESC [ or character 0x9b. So, you could use them as follows:
+
+echo -e "\e[?1000h"
+
+Then, you'll get a bunch of characters on button press, see ctlseqs or console_codes(4) for details. Then, you can disable mouse tracking with:
+
+echo -e "\e[?1000l"
+
+Unfortunately, the previous mouse reporting modes can only handle coordinates up to 223 (255 - 32), or in some situations 95 (127 - 32). So there are some new switches to change the format in which mouse coordinates are reported:
+
+    1006 -> report back as decimal values (xterm, many other terminal emulators, but not urxvt)
+    1015 -> report back as decimal values (urxvt, xterm, other terminal emulators, some applications find it complex to parse)
+    1005 -> report back encoded as utf-8 (xterm, urxvt, broken in several ways)
+
+A good strategy for an application would be to enable mouse reporting, then (optionally request urxvt 1015 mode and then) request SGR 1006 mode. The application should handle both the new and legacy mouse reporting responses, to continue working on terminal emulators without support for the new modes.
+
+More information on the new reporting modes at:

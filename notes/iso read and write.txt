@@ -1,0 +1,19 @@
+--------------------------------------------------
+Create ISO from directory:
+--------------------------------------------------
+mkisofs -V LABEL -r DIRECTORY | gzip > cdrom.iso.gz 
+
+
+--------------------------------------------------
+CR-ROM to ISO:
+--------------------------------------------------
+dd if=/dev/cdrom of=/path/to/file.iso 
+
+
+--------------------------------------------------
+Mount ISO file:
+--------------------------------------------------
+mount -o loop /path/to/file.iso /mnt/iso/ 
+OR
+mount -o loop -t iso9660 /path/to/file.iso /mnt/iso/ 
+

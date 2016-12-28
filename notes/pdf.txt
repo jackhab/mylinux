@@ -1,0 +1,6 @@
+--------------------------------------------------
+ COMPRESS GRAPHICS TO REDUCE FILE SIZE
+--------------------------------------------------
+
+gs -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=XXX -sOutputFile=out.pdf in.pdf
+Where XXX is one of: /screen, /ebook, /printer, /prepress

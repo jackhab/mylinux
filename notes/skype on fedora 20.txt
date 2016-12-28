@@ -1,0 +1,18 @@
+--------------------------------------------------
+INSTALLING 32-BIT WEBM LIBRARY, THEN 64-BIT AGAIN
+--------------------------------------------------
+yum remove libvpx.x86_64
+yum install libvpx.i686
+yum install ~/Downloads/skype-4.2.0.11-fedora.i586.rpm
+yum install libvpx.x86_64 
+
+
+--------------------------------------------------
+FIXING SOUND PROBLEMS
+--------------------------------------------------
+sudo gnome-open /usr/share/applications/skype.desktop
+
+Change the line that reads Exec=skype %U to the following:
+Exec=env PULSE_LATENCY_MSEC=30 skype %U
+
+Restart Skype and the audio issues should be resolved.

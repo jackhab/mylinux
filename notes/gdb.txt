@@ -1,0 +1,23 @@
+--------------------------------------------------
+COREDUMP CONFIGURATION
+--------------------------------------------------
+/etc/security/limits.conf
+/proc/sys/kernel/core_pattern
+/var/coredumps/coredump_%e_%h_%s'
+
+--------------------------------------------------
+GENERATE FULL STACK TRACE
+--------------------------------------------------
+gdb -ex='info threads' -ex='set print frame-arguments all' -ex='thread apply all bt full' --batch exe-file-name coredump
+
+
+
+set logging on
+set logging file /tmp/gdb.log
+
+break CodsANStream.cpp:542
+commands
+    silent
+    info stack
+    cont
+end

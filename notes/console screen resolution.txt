@@ -1,0 +1,6 @@
+In /boot/grub/grub.conf file add 'vga=791' to the kernel line.
+Other resolutions:
+791 - 1024x768, 16 bit
+792 - 1024x768, 24 bit
+794 - 1280x1024, 16 bit
+795 - 1280x1024, 24 bit

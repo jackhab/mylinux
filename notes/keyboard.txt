@@ -1,0 +1,4 @@
+--------------------------------------------------
+SETUP A COMPOSE KEY FOR ALTERNATE CHARACTERS
+--------------------------------------------------
+setxkbmap -option compose:rwin

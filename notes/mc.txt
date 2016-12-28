@@ -1,0 +1,311 @@
+--------------------------------------------------
+PANELS
+--------------------------------------------------
+Ctrl-r          reread
+Ctrl-u          swap left and right
+Alt-t           switch listing mode
+Alt-i           set inactive panel to active dir
+Alt-,           split vertical/horizontal
+Alt-Shift-Right split more
+Alt-Shift-Left  split less
+Alt-=           split equal
+Alt-.           show hidden files
+Ctrl-Space      show dir size
+Ctrl-s|Alt-s    jump to file
+Alt-o           open dir in other panel
+Alt-Shift-h     dir history
+Alt-u           dir history forward
+Alt-y           dir history back
+Ctrl-\          dir hotlist
+Ctrl-x h        add dir to hotList
+Ctrl-PgUp       cd in
+Ctrl-PgDown     cd out
+Alt-c           cd dialog
+Ctrl-x a        active VFS list
+Ctrl-x i        info panel
+Ctrl-x q        quick view panel
+Ctrl-x !        panelize command
+Alt-Shift-!     filtered view
+Alt-e           select codepage
+F9              menu
+F2              user menu
+Ctrl-x j        active job list
+Alt-`           screen list
+
+
+--------------------------------------------------
+COMMAND LINE
+--------------------------------------------------
+Ctrl-o          show shell
+Alt-h           command history
+Alt-Enter       drop active file name
+Ctrl-x p        drop active path
+Ctrl-x t        drop active selection
+Ctrl-x r        drop active link target
+Ctrl-x Ctrl-p   drop inactive path
+Ctrl-x Ctrl-t   drop inactive selection
+Ctrl-x Ctrl-r   drop inactive link target
+
+
+--------------------------------------------------
+FILES
+--------------------------------------------------
+F3              view
+F4              edit
+F5              copy
+F6              move
+F7              make dir
+F8              delete
+Alt-Shift-?     find
+NUM+            select with wildcards
+NUM-            unselect with wildcards
+NUM*            invert selection
+Insert|Ctrl-t   select
+Shift-Up/Down   select up/down
+Ctrl-x c        change mode
+Ctrl-x o        change owner
+Ctrl-x d        compare dirs
+Ctrl-x Ctrl-d   compare files
+Ctrl-x l        new hard link
+Ctrl-x s        new absolute symlink
+Ctrl-x v        new relative symlink
+Ctrl-x s        edit symlink
+
+--------------------------------------------------
+INPUT
+--------------------------------------------------
+Ctrl-w          remove
+Alt-w           store
+Ctrl-y          yank
+Ctrl-k          delete to end
+Alt-p|Ctrl-Down history previous
+Alt-n|Ctrl-Up   history next
+Alt-h           History
+Alt-tab         complete
+
+
+--------------------------------------------------
+EDITOR
+--------------------------------------------------
+Ctrl-u          undo
+Alt-r           redo
+Ctrl-Ins        copy
+Shift-Ins       paste
+Shift-Del       cut
+Ctrl-Left       word left
+Ctrl-Right      word right
+Ctrl-Up         scroll Up
+Ctrl-Down       scroll Down
+Ctrl-pgup       top On Screen
+Ctrl-pgdn       bottom On Screen
+Alt-BS          delete To Word start
+Alt-d           delete To Word End
+Ctrl-y          delete Line
+Ctrl-k          delete To End
+F2              save
+Ctrl-n          edit New file
+F12|Ctrl-F2     saveAs
+F5              copy
+F6              move
+F8              remove
+F7              search
+F17             searchContinue
+F3              mark
+Shift-pgup      markPageUp
+Shift-pgdn      markPageDown
+Shift-Left      markLeft
+Shift-Right     markRight
+Ctrl-Shift-Left markToWordBegin
+Ctrl-Shift-RightmarkToWordEnd
+Shift-Up        markUp
+Shift-Down      markDown
+Shift-home      markToHome
+Shift-end       markToEnd
+Ctrl-Shift-home markToFileBegin
+Ctrl-Shift-end  markToFileEnd
+Ctrl-Shift-pgup markToPageBegin
+Ctrl-Shift-pgdn markToPageEnd
+Ctrl-Shift-Up   markScrollUp
+Ctrl-Shift-Down markScrollDown
+Alt-pgup        markColumnPageUp
+Alt-pgdn        markColumnPageDown
+Alt-Left        markColumnLeft
+Alt-Right       markColumnRight
+Alt-Up          markColumnUp
+Alt-Down        markColumnDown
+Ctrl-f          blockSave
+F13             markColumn
+F4              replace
+F14             replaceContinue
+Alt-tab         complete
+F15             insertFile
+f10; esc        quit
+insert          insertOverwrite
+F1              help
+Ctrl-l          refresh
+Alt-l           goto
+Alt-t           sort
+Alt-m           mail
+Alt-p           paragraphFormat
+Alt-b           matchBracket
+Alt-u           externalCommand
+F11             userMenu
+F9              menu
+Alt-k           bookmark
+Alt-o           bookmarkFlush
+Alt-j           bookmarkNext
+Alt-i           bookmarkPrev
+Ctrl-o          shell
+Ctrl-q          insertLiteral
+Ctrl-r          macroStartStopRecord
+Alt-n           showNumbers
+Alt-underline   showTabTws
+Ctrl-s          syntaxOnOff
+Alt-enter       find
+Alt-minus       filePrev
+Alt-plus        fileNext
+Alt-e           selectCodepage
+Ctrl-p          spellCheckCurrentWord
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------
+HELP
+--------------------------------------------------
+f2; c     Index
+f3; left; l     Back
+f10; esc     Quit
+up; Ctrl-p     Up
+down; Ctrl-n     Down
+f; SP; pgdn; Ctrl-v     PageDown
+b; pgup; Alt-v; backSP     PageUp
+d     HalfPageDown
+u     HalfPageUp
+home; Ctrl-home; Ctrl-pgup; a1; Alt-lt; g     Top
+end; Ctrl-end; Ctrl-pgdn; c1; Alt-gt; Shift-g     Bottom
+right; enter     Enter
+tab     LinkNext
+Alt-tab     LinkPrev
+n     NodeNext
+p     NodePrev
+
+--------------------------------------------------
+VIEWER
+--------------------------------------------------
+F2    wrap lines
+F3|F10|Q|Esc  quit
+F4    HexMode
+F5    Goto
+F7    Search
+/     SearchForward
+?     SearchBackward
+f17; n     SearchContinue
+Ctrl-s     SearchForwardContinue
+Ctrl-r     SearchBackwardContinue
+F8    MagicMode
+F9    NroffMode
+Ctrl-a     Home
+Ctrl-e     End
+h; left     Left
+l; right     Right
+Ctrl-Left     LeftQuick
+Ctrl-Right     RightQuick
+k; y; insert; up; Ctrl-p     Up
+j; e; delete; down; enter; Ctrl-n     Down
+f; SP; pgdn; Ctrl-v     PageDown
+b; pgup; Alt-v; backSP     PageUp
+d     HalfPageDown
+u     HalfPageUp
+home; Ctrl-home; Ctrl-pgup; a1; Alt-lt; g     Top
+end; Ctrl-end; Ctrl-pgdn; c1; Alt-gt; Shift-g     Bottom
+m     BookmarkGoto
+r     Bookmark
+Ctrl-f     FileNext
+Ctrl-b     FilePrev
+Alt-e     SelectCodepage
+Ctrl-o     Shell
+Alt-r     Ruler
+
+[viewer:hex]
+F1    Help
+F2    HexEditMode
+f3; f10; q; esc     Quit
+F4    HexMode
+F5    Goto
+F6    Save
+F7    Search
+slash     SearchForward
+question     SearchBackward
+f17; n     SearchContinue
+Ctrl-s     SearchForwardContinue
+Ctrl-r     SearchBackwardContinue
+F8    MagicMode
+F9    NroffMode
+tab     ToggleNavigation
+Ctrl-a; home     Home
+Ctrl-e; end     End
+b; left     Left
+f; right     Right
+k; y; up     Up
+j; delete; down     Down
+pgdn; Ctrl-v     PageDown
+pgup; Alt-v     PageUp
+Ctrl-home; Ctrl-pgup; a1; Alt-lt; g     Top
+Ctrl-end; Ctrl-pgdn; c1; Alt-gt; Shift-g     Bottom
+
+[diffviewer]
+Alt-s; s     ShowSymbols
+Alt-n; l     ShowNumbers
+f     SplitFull
+equal     SplitEqual
+gt     SplitMore
+lt     SplitLess
+2     Tab2
+3     Tab3
+4     Tab4
+8     Tab8
+Ctrl-u     Swap
+Ctrl-r     Redo
+n; enter; SP     HunkNext
+p; backSP     HunkPrev
+g; Shift-g     Goto
+F2    Save
+F4    Edit
+F14    EditOther
+F5    Merge
+F15    MergeOther
+F7    Search
+F17    SearchContinue
+F9    Options
+Ctrl-home     Top
+Ctrl-end     Bottom
+down     Down
+up     Up
+Ctrl-Left     LeftQuick
+Ctrl-Right     RightQuick
+left     Left
+right     Right
+pgdn     PageDown
+pgup     PageUp
+home     Home
+end     End
+F1    Help
+f10; q; Shift-q; esc     Quit
+Ctrl-o     Shell
+Alt-e     SelectCodepage

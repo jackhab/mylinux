@@ -1,0 +1,33 @@
+--------------------------------------------------
+DROPBOX
+--------------------------------------------------
+yum install thunarx-python Thunar-devel wget && \
+yum groupinstall "Development Tools" && \
+cd ~ && wget -O - "http://www.dropbox.com/download?plat=lnx.x86" | tar xzf - && \
+cd ~ && wget -O - "http://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf - && \
+cd ~ && wget -O - "http://softwarebakery.com/maato/files/thunar-dropbox/thunar-dropbox-0.2.0.tar.bz2" | tar xjf - && \
+cd thunar-dropbox-0.2.0 && \
+./waf configure --prefix=/usr && \
+./waf build && \
+./waf install && \
+~/.dropbox-dist/dropboxd &
+
+Go to Settings > Session and Startup and open the Application Autostart.
+Make sure Dropbox is enabled.
+
+
+--------------------------------------------------
+XFCE SET CUSTOM KEYBOARD LAYOUT SHORTCUT
+--------------------------------------------------
+Xfce Settings -> Keyboard -> Application shortcuts -> Add -> Command: setxkbmap -layout us->
+  -> OK -> <press the key combination you want> 
+
+
+--------------------------------------------------
+DISABLE SCREEN SAVING
+--------------------------------------------------
+gsettings set org.gnome.desktop.session idle-delay 0
+xset dpms 0 0 0
+To verify:
+gsettings get org.gnome.desktop.session idle-delay
+xset q

@@ -1,0 +1,4 @@
+--------------------------------------------------
+COMBINE VIDEO AND AUDIO FILES
+--------------------------------------------------
+ffmpeg -i qv.mp4 -i qa.m4a -c:v copy -c:a copy out.mp4

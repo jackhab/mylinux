@@ -1,0 +1,12 @@
+--------------------------------------------------
+IMPROVES FONTS IN FIREFOX AND OTHERS:
+--------------------------------------------------
+rpm -Uvh http://www.infinality.net/fedora/linux/infinality-repo-1.0-1.noarch.rpm
+yum install freetype-infinality infinality-settings
+
+
+--------------------------------------------------
+INSTALL FONTS MANUALLY
+--------------------------------------------------
+cp *.ttf /usr/share/fonts/local
+fc-cache /usr/share/fonts/local

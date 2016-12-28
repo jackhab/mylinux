@@ -1,0 +1,82 @@
+${var}           Use value of var; braces are required for array variables.
+
+${var-value}     Use var if set; otherwise, use value.
+${var:-value}    Use var if set and not empty; otherwise, use value.
+${var=value}     Use var if set; otherwise, use value and assign value to var.
+${var:=value}    Use var if set and not empty; otherwise, use value and assign value to var.
+${var?value}     Use var if set; otherwise, print value and exit (if not interactive). If value isn't supplied, print the phrase "var null or not set."
+${var:?value}    Use var if set and not empty; otherwise, print value and exit (if not interactive). If value isn't supplied, print the phrase "var null or not set."
+${var+value}     Use value if set; otherwise, use nothing.
+${var:+value}    Use value if set and not empty; otherwise, use nothing.
+
+${!var}          Indirection: if $var=='foo' return value of $foo
+
+${#var}          Length of var value.
+
+${#*}            Use the number of positional vars.
+${#@}            Same as ${#*}.
+
+${var#pattern}   Remove the shortest pattern from the left.
+${var##pattern}  Remove the longest pattern from the left.
+${var%pattern}   Remove the shortest pattern from the right.
+${var%%pattern}  Remove the longest pattern from the right.
+
+${!prefix*}      List of variables whose names begin with prefix.
+${!prefix@}      Same as ${!prefix*}.
+
+${var:pos:len}   Starting at 0-based position pos var, extract len characters, len is optional.
+                 If the LENGTH value is negative, it's used as offset from the end of the string.
+
+${var/pat/repl}  First match of pat replaced with repl.
+${var/pat}       First match of pat deleted.
+${var//pat/repl} Every match of pat replaced with repl.
+${var/#pat/repl} Match of pat replaced with repl. Match must occur at beginning of the value.
+${var/%pat/repl} Match of pat replaced with repl. Match must occur at end of the value.
+
+${var^}          First char to upper case
+${var^^}         All chars to upper case
+${var,}          First char to lower case
+${var,,}         All chars to lower case
+${var~}          First char to reverse case
+${var~~}         All chars to reverse case
+
+
+--------------------------------------------------
+ARRAYS
+--------------------------------------------------
+
+
+ARRAY=()              Declares an empty indexed array ARRAY. Optional.
+ARRAY[0]=             Sets the first element of an indexed array. If no array ARRAY existed before, it is created.
+
+declare -a ARRAY      Declares an indexed array ARRAY. An existing array is not initialized.
+declare -A ARRAY      Declares an associative array ARRAY. Mandatory for associative arrays.
+
+ARRAY[N]=VAL          Sets the element N of the indexed array ARRAY to VAL. N can be any valid arithmetic expression.
+ARRAY[STR]=VAL	      Sets the element indexed by STR of the associative array ARRAY.
+ARRAY=VAL             If no index is given, the zeroth element is set to VAL.
+ARRAY=(E1 E2 ...)	  Sets the whole array ARRAY to the given list of elements; not for associative arrays.
+ARRAY=([X]=E1 [Y]=E2) Indexed array assignment.
+ARRAY+=(E1 E2 ...)    Append to ARRAY.
+
+${ARRAY[N]}           Value of the index N. If N is a negative number, it's the offset from the end.
+
+${ARRAY[@]}           Expands to all elements.
+${ARRAY[*]}           Expands to all elements.
+"${ARRAY[@]}"         Expands to all elements individually quoted.
+"${ARRAY[*]}"         Expands to all elements all quoted as a whole.
+
+${ARRAY[@]:N:M}       Expands to all elements from N to M.
+${ARRAY[*]:N:M}       Expands to all elements from N to M.
+"${ARRAY[@]:N:M}"     Expands to all elements from N to M individually quoted.
+"${ARRAY[*]:N:M}"     Expands to all elements from N to M all quoted as a whole.
+
+${#ARRAY[N]}          Expands to the length of an individual array member.
+
+${#ARRAY[@]}
+${#ARRAY[*]}          Expands to the number of elements in ARRAY
+
+${!ARRAY[@]}
+${!ARRAY[*]}          Expands to the indexes in ARRAY since BASH 3.0
+
+readarray ARRAY< <(COMMAND) Create an array from COMMAND output

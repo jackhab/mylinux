@@ -1,0 +1,20 @@
+--------------------------------------------------
+CREATE SEPARATE NETSPACE
+--------------------------------------------------
+
+#create new space
+ip netns add cods
+
+#create two interfaces to link from space to world
+ip link add veth0 type veth peer name veth1
+
+#put one of the interfaces into space
+ip link set veth1 netns cods
+
+#bring interfaces up
+ip link set veth0 up
+ip netns exec cods ip link set veth1 up
+ 
+ 
+#now you can bridge veth0 to whatever physical or virtual interface
+#to connect the new net space to outer world

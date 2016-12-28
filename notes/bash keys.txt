@@ -1,0 +1,16 @@
+Ctrl-A    Home
+Ctrl-E    End
+Alt-B     Word back
+Alt-F     Word forth
+Alt-BS    Kill word back
+Alt-D     Kill word forth
+Ctrl-U    Cut the current line.
+Ctrl-K    Cut to the end of the line.
+Ctrl-W    Cut the word before the cursor.
+Ctrl-Y    Paste
+Ctrl-L    Screen refresh
+Ctrl-D    Logoff or insert EOF
+Alt-.     Insert argument of previous command
+Ctrl-X E  Edit command in an editor
+
+	

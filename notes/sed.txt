@@ -1,0 +1,86 @@
+--------------------------------------------------
+http://www.grymoire.com/Unix/Sed.html
+--------------------------------------------------
+
+
+--------------------------------------------------
+Substitute "foo" with "bar" on each line
+--------------------------------------------------
+sed 's/foo/bar/' file        # replaces only 1st instance in a line
+sed 's/foo/bar/4' file       # replaces only 4th instance in a line
+sed 's/foo/bar/g' file       # replaces ALL instances within a line
+
+--------------------------------------------------
+Substitute "foo" with "bar" ONLY for lines which contain "baz"
+--------------------------------------------------
+sed '/baz/s/foo/bar/g' file
+
+--------------------------------------------------
+Replace in file with bak file creation
+--------------------------------------------------
+sed -ibak 's/bla/foo/g' file.txt
+
+--------------------------------------------------
+Find and replace in multiple files
+--------------------------------------------------
+find . -name "*.c" -exec sed -i "s/oldWord/newWord/g" '{}' \;
+
+--------------------------------------------------
+Replace without printing non-matching lines
+--------------------------------------------------
+sed -n 's/from/to/p'
+-n: don't print by default
+p: print matches
+
+
+--------------------------------------------------
+Remove lines 5-10 and 12
+--------------------------------------------------
+sed -i.bak -e '5,10d;12d' file
+
+--------------------------------------------------
+Commands
+--------------------------------------------------
+: label                # comment            {....} Block
+= print line number       a append                b label branch
+c change               d/D delete           g/G get from hold/append from hold
+h/H hold/hold append   i insert             l look(debug)
+n/N next/next append   p/P print            q quit
+r read file            s/.../.../ subst     t/T branch if subst/no subst
+w write filename       x exchange           y/.../.../ transform
+
+e pipe from shell
+F print input filename
+Q quit without print
+R read from file and ???
+z clear patter space
+    
+
+--------------------------------------------------
+Classes
+--------------------------------------------------
+[[:alnum:]]   [[:cntrl:]]   [[:lower:]]   [[:space:]]
+[[:alpha:]]   [[:digit:]]   [[:print:]]   [[:upper:]]
+[[:blank:]]   [[:graph:]]   [[:punct:]]   [[:xdigit:]]
+
+
+--------------------------------------------------
+Sunstitute flags
+--------------------------------------------------
+/g global
+/I ignore case
+/p print
+/w filename write filename
+/n replace n-th match
+/e pipe from shell
+/m multiline
+
+
+--------------------------------------------------
+Command Line options
+--------------------------------------------------
+-e script
+-f scriptfile
+-n silent
+-r use extended regular expressions in the script,
+    no need to escape ? + ( ) { }

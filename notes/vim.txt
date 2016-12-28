@@ -1,0 +1,234 @@
+--------------------------------------------------
+﻿FILE OPERATIONS
+--------------------------------------------------
+:e / e. / e!        edit file / open dir / revert
+ZZ / ZQ             save / discard and quit
+:sav                filename save as filename
+:mks                save session (reload by vim -S command)
+:r filename / !cmd  read from filename / cmd
+
+
+--------------------------------------------------
+MISC
+--------------------------------------------------
+i / a / o / O        insert before / after / below / above cursor
+r / R                replace char / mode
+u / U                undo one step / whole line
+Ctrl-R               redo
+.                    repeat last insert mode action
+;                    repeat last character movement
+@:                   repeat last command mode action
+dd                   delete a line
+de                   delete to word's end
+J                    join lines
+:!                   cmd run cmd command
+U / u                selection to upper / lower case
+Ctrl-C               cancel command
+Ctrl-O               execute a command (INS)
+:set virtualedit=all edit beyond end of text
+Ctrk-K               insert key name
+Ctrl-A / Ctrl-X      increment/decrement
+Shift-K              man on current word
+Ctrl-P               omni-completion
+Ctrl-X Ctrl-         complete: L line, N word from current file,
+                       I word from current and included file, ] tag,
+                       D definition, F file, V guess, S spelling
+
+
+--------------------------------------------------
+VIEW
+--------------------------------------------------
+Ctrl-L              redraw screen
+:set nu             show line numbers
+:set list           show control characters
+zm / zr (zM / zR)   fold more / less (all / none)
+za / zA             toggle fold / toggle recursively
+zn                  no folds
+
+
+--------------------------------------------------
+NAVIGATION
+--------------------------------------------------
+^ / $               home / end
+Ctrl-E, Ctrl-Y      scroll screen up/down
+gg / GG             document start/end
+10gg | 10G          go to line 10
+w / b               word forth / back
+gf                  go to file under cursor (use "path" option)
+:ju                 jump list
+Ctrl-O, Ctrl-I      go back, forth in jump list
+gD                  go to definition
+gf                  go to file
+gF                  go to file and line
+Ctrl-] / Ctrl-T     go to tag or link / go back
+{,}                 jump between blank lines
+(,)                 jump between sentences
+[[,]] / [],][       jump between { / }braces
+tx/Tx               jump to before char x right/left
+fx/Fx               jump to exact  char x right/left
+;                   jump to char again
+ma / 'a             put / jump to mark a
+''                  jump back
+
+
+--------------------------------------------------
+SEARCH AND REPLACE
+--------------------------------------------------
+When replacing: \r is newline, \n is a null byte.
+
+* / #               find next/prev word
+%                   match brace, #if, block
+/                   search
+/\v                 very magic Perl-like search
+:lv text %          search text, put results in location list
+:lw                 open location list
+q/                  search history
+:noh                clear search highlight
+Ctrl-R Ctrl-W       get word under cursor
+Ctrl-R "            get text from register
+:s/old/new/g        replace in current line
+:s//new1/g          replace previous search
+:%s/old/new/gci     replace in file with prompt, case insensitive
+:'<,'>s/old/new/g   replace in selection
+
+
+--------------------------------------------------
+FORMAT TEXT
+--------------------------------------------------
+>>,<<                       indent lines more, less (CMD)
+Tab, Ctrl-D                 indent lines more, less (INS)
+== / V=                     indent line / selection
+gq / gqq / gqap             format block / line / paragraph
+Ctrl-V I # Esc              insert # before paragraph
+set tabstop=4
+set shiftwidth=4
+set expandtab
+:%retab!
+:'<,'>!xmllint --format -   indent XML
+
+
+--------------------------------------------------
+TAGS
+--------------------------------------------------
+:tag                main open main function
+:tags               list tags stack
+:[s]tj              jump to matching tag [with split]
+:tn                 jump to next matching tag
+:set                tags=filename set tags file
+[I /]I              find refs / from cursor
+vim –t main         open file with main symbol
+
+
+--------------------------------------------------
+CSCOPE
+--------------------------------------------------
+:!cscope –Rb        build cscope.out
+:cs                 add cscope.out connect to database
+:cs h               help
+:cs                 find c callers, d callees, e regexp, t text, f file,
+                      g definitions, i includers, s symbols
+
+
+--------------------------------------------------
+YANK/PASTE
+--------------------------------------------------
+"                   select register
+:reg                display registers
+y                   yank text
+yy, Y               yank a line
+p, P                put text after, before cursor
+gp                  put and go after
+""                  unnamed default register
+"%                  file name register
+"*                  clipboard register (gui)
+"+                  selection register (gui)
+[0-9]               misc operation registers
+[a-z]               general purpose registers
+[A-Z]               general purpose accumulating registers
+Ctrl-R”             insert copied text on cmd line
+Ctrl-R%             insert file name on cmd line
+Ctrl-R Ctrl-        insert on cmd line: W word, F file, P path
+:set paste          prevent autoformat when pasting text in terminal
+:set nopaste        turn off paste mode
+
+
+--------------------------------------------------
+SELECTION
+--------------------------------------------------
+v / V  / Ctrl-V     select character / line / block
+ggVG                all text
+Ctrl-Q              vertical block
+viw / vip           word / paragraph
+gv                  restore selection
+o                   go to selection start/end
+a / i               select object with/wo spaces: w word, s sentence,
+                      p paragraph, XML tag block, ( , ) , { , } , [ , ] , ’ , ” ,` block
+U / u               change case
+I / A               block insert / append
+
+
+--------------------------------------------------
+BUFFERS
+--------------------------------------------------
+:ls                 list buffers
+:b                  3 edit third buffer
+:ba                 open all buffers in windows
+:bd                 delete buffer
+Ctrl-^              switch to alternate buffer
+
+
+--------------------------------------------------
+WINDOWS
+--------------------------------------------------
+:sf                 filename split and edit a file
+:sv                 filename split and view a file
+:new                edit new file in new window
+:vne[w]             edit in vertical window
+Ctrl-WW             switch window
+Ctrl-W_             maximize window
+Ctrl-W =            make widows same size
+:on                 close other windows
+:sp filename        split windows and open a file
+:vs | Ctrl-W v      vertical split
+Ctrl-W q            close current window
+Ctrl-W Up,          Down,Left,Right jump to window
+Ctrl-W H,J,K,L      move / rotate window
+Ctrl-W +,-,<,>      resize window
+
+
+--------------------------------------------------
+TABS
+--------------------------------------------------
+:tabe               edit in new tab
+:tabc               close tab
+:tabo               close other tabs
+:tabm 3             move tab to third position
+gt/gT/Ctrl-Alt-PgUD switch tabs
+:bufdo tabe         edit open files in tabs
+t
+
+
+--------------------------------------------------
+QUICK FIX
+--------------------------------------------------
+:make               run make in current dir
+:cw                 show errors (if found!)
+:cn, :cp            show next/previous error
+:w|make|cw          save, make, show errors
+
+
+--------------------------------------------------
+MACROS
+--------------------------------------------------
+qa                  record macro a
+q                   stop recording macro
+@a                  playback macro a
+@@                  repeat last macro
+
+
+--------------------------------------------------
+VIMDIFF
+--------------------------------------------------
+vimdiff –o          horizontal split
+]c / [c             diff next / prev
+do /dp              diff put /obtain

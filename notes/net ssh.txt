@@ -1,0 +1,43 @@
+--------------------------------------------------
+DISABLE HOST VERIFICATION
+--------------------------------------------------
+In /etc/ssh/ssh_config
+Host *
+    StrictHostKeyChecking no
+    UserKnownHostsFile=/dev/null
+
+
+--------------------------------------------------
+REVERSE SSH TUNNELING
+--------------------------------------------------
+Let's assume that Destination's IP is 192.168.20.55 (Linux box that you want to access).
+You want to access from Linux client with IP 138.47.99.99.
+Destination (192.168.20.55) <- |NAT| <- Source (138.47.99.99)
+
+1. SSH from the destination to the source (with public ip) using command below:
+ssh -R 19999:localhost:22 sourceuser@138.47.99.99
+* port 19999 can be any unused port.
+
+2. Now you can SSH from source to destination through SSH tuneling:
+ssh localhost -p 19999
+
+3. 3rd party servers can also access 192.168.20.55 through Destination (138.47.99.99).
+Destination (192.168.20.55) <- |NAT| <- Source (138.47.99.99) <- Bob's server
+
+3.1 From Bob's server:
+ssh sourceuser@138.47.99.99
+
+3.2 After the sucessful login to Source:
+ssh localhost -p 19999
+
+* the connection between destination and source must be alive at all time.
+Tip: you may run a command (e.g. watch, top) on Destination to keep the connection active. 
+
+
+--------------------------------------------------
+REUSE SAME CONNECTION FOR ALL LOGINS
+--------------------------------------------------
+
+Add to ~/.ssh/config:
+ControlMaster auto
+ControlPath /tmp/ssh_mux_%h_%p_%r

@@ -1,0 +1,20 @@
+1. Install Perl packages as root
+cpan App::cpanminus
+cpan lib::abs
+cpan lib::abs
+cpan XML::Rabbit::Root 
+cpan Hash::FieldHash
+cpan GraphViz2
+
+
+2. Generate Doxygen docs with XML output
+GENERATE_XML = YES
+EXTRACT_ALL = YES
+
+
+3. Generate a dot file doxyviz(!) directory
+perl doxygraph/doxygraph /path/to/your/index.xml doxyviz/htdocs/graph.dot
+
+
+4. Open doxyviz/htdocs/index.html in your web browser.
+

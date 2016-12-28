@@ -1,0 +1,18 @@
+systemctl stop NetworkManager
+systemctl disable NetworkManager
+systemctl list-unit-files --type=service
+
+
+systemctl start SERVICE
+systemctl stop SERVICE
+systemctl restart SERVICE
+systemctl reload SERVICE
+systemctl status SERVICE
+systemctl is-active SERVICE
+systemctl list-units --type service --all
+
+
+journalctl -b from current boot
+journalctl -k from kernel
+
+journalctl -b -u nginx.service all logs for unit from boot

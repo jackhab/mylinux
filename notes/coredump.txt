@@ -1,0 +1,5 @@
+/etc/security/limits.conf
+
+/proc/sys/kernel/core_pattern
+
+/var/coredumps/coredump_%e_%h_%s'

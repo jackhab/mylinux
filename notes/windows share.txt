@@ -1,0 +1,2 @@
+mount -t cifs -o username=winuser,password=winpass,uid=linuxuser,gid=linuxgroup //10.10.1.117/test /mnt/win/test
+     

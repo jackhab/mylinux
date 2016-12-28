@@ -1,0 +1,37 @@
+
+tput setab [1-7]  Set a background colour using ANSI escape
+tput setb [1-7]   Set a background colour
+tput setaf [1-7]  Set a foreground colour using ANSI escape
+tput setf [1-7]   Set a foreground colour
+
+tput sgr0         Turn off all attributes (doesn't work quite as expected)
+tput bold         Set bold mode
+tput dim          Turn on half-bright mode
+tput smul         Begin underline mode
+tput rmul         Exit underline mode
+tput rev          Turn on reverse mode
+tput smso         Enter standout mode (bold on rxvt)
+tput rmso         Exit standout mode
+
+tput sc           Save the cursor position
+tput cup Y X      Move cursor to screen location X,Y (top left is 0,0)
+tput cub N        Move N characters left
+tput cuf N        Move N characters right
+tput cub1         Move left one space
+tput rc           Restore the cursor position
+tput lines        Output the number of lines of the terminal
+tput cols         Output the number of columns of the terminal
+tput cuf1         Non-destructive space (move right one space)
+tput ll           Last line, first column (if no cup)
+tput cuu1         Up one line
+
+tput ech N        Erase N characters
+tput clear        Clear screen and home cursor
+tput el1          Clear to beginning of line
+tput el           Clear to end of line
+tput ed           Clear to end of screen
+tput ich N        Insert N characters (moves rest of line forward!)
+tput il N         Insert N lines
+
+tput rmam         Line wrapping off
+tput smam         Line wrapping on

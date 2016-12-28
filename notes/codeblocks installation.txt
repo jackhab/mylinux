@@ -1,0 +1,20 @@
+--------------------------------------------------
+Install CentOS prerequsites:
+--------------------------------------------------
+yum -y groupinstall "Development Tools" && yum -y install wxGTK-devel gamin-devel boost-devel huspell
+
+
+--------------------------------------------------
+CHECK OUT AND INSTALL
+--------------------------------------------------
+svn checkout svn://svn.berlios.de/codeblocks/trunk codeblocks-svn-trunk && \
+cd codeblocks-svn-trunk && \
+./bootstrap && \
+./configure CPPFLAGS="$CPPFLAGS -I$PWD/boost_1_46_0" --with-contrib-plugins=all --prefix=/opt/codeblocks-svn && \
+make && \
+sudo make install
+
+
+Note: ./bootstrap needs to be run only once after fresh checkout.
+
+

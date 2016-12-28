@@ -9,6 +9,6 @@ then
 	apt-get install -y qemu-kvm libvirt-bin virtinst bridge-utils cpu-checker
 fi
 
-apt-get install -y terminator mc meld vim git wireshark tree
+apt-get install -y terminator mc meld vim git wireshark tree sshfs
 
 update-locale LC_TIME=en_US.UTF-8

@@ -136,17 +136,18 @@ snr() {
 
 
 #quick mount over SSH
-ssh-mount() {
-	[[ -z $1 ]] && return 1
+mount-ssh() {
+    [[ $1 =~ .+:.+ ]] ||  { echo Usage: mount-ssh [user@]host:dir ; return 1 ; } 
 
     NoCol=${1//:/}           #remove :
     NoSlash=${NoCol////-}    #replace / with -
     MountDir=${NoSlash/%-/}  #remove last -
+    MountDir=${MountDir/%./} #remove last -
 
     #clean up empty dirs from previous mounts
     find ~/mnt -maxdepth 1 -type d -empty -exec rmdir {} \;
 
-	mkdir -p ~/mnt/$MountDir || return 1
+	mkdir -p ~/mnt/$MountDir
 
     sshfs $1 ~/mnt/$MountDir || return 1
 

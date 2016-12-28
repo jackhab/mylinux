@@ -25,3 +25,10 @@ cd poky-jethro
 copy bblayers.conf and local.conf to build/conf ??OR?? meta-intel/conf (first try build/conf)
 enable appropriate machine type in local.conf
 adjust paths in bblayers.conf
+
+#build
+bitbake core-image-minimal
+
+
+#output image is in
+ls -l ~/poky-jethro/build/tmp/deploy/images/valleyisland-64/

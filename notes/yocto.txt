@@ -32,3 +32,6 @@ bitbake core-image-minimal
 
 #output image is in
 ls -l ~/poky-jethro/build/tmp/deploy/images/valleyisland-64/
+
+
+

@@ -190,6 +190,20 @@ else
 fi
 
 
+#run ls if directory changed
+PrevDir=$(tty)
+PrevDir=/tmp/prev-dir${PrevDir////-}
+echo $PWD > $PrevDir
+LsAfterCd() {
+    [[ "$(< $PrevDir)" == "$PWD" ]] && return 0
+    
+    ll
+
+    echo $PWD > $PrevDir
+}
+PROMPT_COMMAND=LsAfterCd
+
+
 #more user-friendly Bash: normally these settings go into ~/.inputrc
 #without the bind command, but we keep everything in one file here
 if tty -s ; then

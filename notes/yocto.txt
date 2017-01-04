@@ -35,3 +35,9 @@ ls -l ~/poky-jethro/build/tmp/deploy/images/valleyisland-64/
 
 
 
+#kernel modification and rebuild
+bitbake linux-yocto -c menuconfig
+bitbake linux-yocto -C compile
+
+#kernel config location
+/home/jackhab/poky-jethro/meta-intel/tmp/work/corei7-64-intel-common-poky-linux/linux-yocto/3.14.62+gitAUTOINC+189154c0ed_27d9a1914b-r0/linux-corei7-64-intel-common-standard-build/.config

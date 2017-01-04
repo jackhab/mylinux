@@ -32,6 +32,7 @@ git config --global core.editor vim
 git config --global core.pager "cat"
 git config --global --add difftool.prompt false
 git config --global mergetool.meld.cmd 'meld $LOCAL $MERGED $REMOTE'
+git config --global diff.tool meld
 git config --global difftool.meld.cmd 'meld $LOCAL $REMOTE'
 git config branch.master.rebase true
 git config --global branch.autosetuprebase always

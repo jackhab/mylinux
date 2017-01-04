@@ -17,6 +17,7 @@ alias wireshark='sudo wireshark'
 alias virsh='sudo virsh'
 alias ifconfig='sudo ifconfig'
 alias ethtool='sudo ethtool'
+alias ssh='ssh -X'
 
 
 #open any file

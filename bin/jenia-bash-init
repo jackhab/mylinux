@@ -11,6 +11,7 @@ alias la='ll -a'
 #mandatory switches
 alias rm='rm -i'
 alias cp='cp -i'
+alias mv='mv -i'
 alias yum='sudo yum -y'
 alias apt-get='sudo apt-get -y'
 alias wireshark='sudo wireshark'

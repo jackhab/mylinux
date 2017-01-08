@@ -38,21 +38,16 @@ Main() {
 
 
 GitLog() {
-    #CmdLog="git log -100 --decorate=short --oneline --graph --branches --remotes --tags"
-    #CmdLog="git log -100 --all --graph --decorate=short --color \
-    # --format=format:\"%w($Cols,1,15)%C(auto)%h %C(white bold)%s%C(reset)%C(auto)%d %<(12,trunc)%ci %<(5,trunc)%ae\""
-
     MessLen=$(($Cols-20))
     LDate="%<(18,trunc)%ci"
     LName="%<(5,trunc)%ae"
     LHash="%C(auto)%h"
-    #LMess="%<($(($Cols-12)),trunc)%C(white bold)%s%C(reset)"
-    #LMess="%<($MessLen,trunc)%C(white bold)%s%C(reset)"
     LMess="%C(white bold)%s%C(reset)"
     LRefs="%C(auto)%d"
     LWrap1="%w($(($Cols-3)),1,20)"
     CmdLog="git log -100 --all --graph --decorate=short --color \
-     --format=format:\"$LWrap$LHash $LMess %n $LRefs $LDate $LName \""
+     --format=format:\"$LWrap$LHash $LDate $LName $LMess $LRefs\""
+     #--format=format:\"$LWrap$LHash $LMess $LRefs $LDate $LName \""
 
     #suppress status error in case there is no working tree
     CmdStat="git status -s -b -u 2>/dev/null"
@@ -71,7 +66,7 @@ GitLog() {
 
     echo
 
-    eval $CmdLog --color=always | head -n $LogLines
+    eval $CmdLog --color=always | head -n $LogLines | perl -lpe 's/(?<=\s)\d\d(\d\d)(?=-)/\1/g ; s/\.\. / /g'
 
     echo
 
@@ -102,3 +97,9 @@ Main
 #sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" |
 #printf %${Cols}s _ | tr ' ' _
 #echo $Lines $StatusLines $LogLines $RealLogLines
+#CmdLog="git log -100 --decorate=short --oneline --graph --branches --remotes --tags"
+#CmdLog="git log -100 --all --graph --decorate=short --color \
+# --format=format:\"%w($Cols,1,15)%C(auto)%h %C(white bold)%s%C(reset)%C(auto)%d %<(12,trunc)%ci %<(5,trunc)%ae\""
+#LMess="%<($(($Cols-12)),trunc)%C(white bold)%s%C(reset)"
+#LMess="%<($MessLen,trunc)%C(white bold)%s%C(reset)"
+

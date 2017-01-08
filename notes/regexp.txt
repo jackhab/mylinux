@@ -20,7 +20,6 @@ SYNTAX SUPPORT
 
               grep -P   sed -r    NPP   [[ txt =~ ... ]]
 _____________________________________________________
-\d              V         X        V         X
 []              V         V        V         V
 +               V         V        V         V
 +?              V                            V
@@ -39,7 +38,7 @@ $               V         V        V         X
 \b              V         V
 \B              V         V
 \x20            V         V
-\d              V         X
+\d              V         X                  X
 \D              V         X
 \s              V         V                  X
 \S              V         V                  X

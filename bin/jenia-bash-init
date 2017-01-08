@@ -24,6 +24,10 @@ alias ssh='ssh -X'
 alias o='xdg-open'
 
 
+#git
+alias gg='git log --all --graph --decorate --oneline'
+
+
 #fixes "Couldn't connect to accessibility bus" warning when using SSH
 export NO_AT_BRIDGE=1
 
@@ -196,9 +200,9 @@ PrevDir=$(tty)
 PrevDir=/tmp/prev-dir${PrevDir////-}
 echo $PWD > $PrevDir
 LsAfterCd() {
-    [[ "$(< $PrevDir)" == "$PWD" ]] && return 0
+    [[ "$(cat $PrevDir)" == "$PWD" ]] && return 0
     
-    ll
+    ll --color=always | sed 1d
 
     echo $PWD > $PrevDir
 }
@@ -217,7 +221,7 @@ fi
 
 
 #treat unknown command as possible host address and try to SSH to it
-command_not_found_handle() {
+I_DISABLED_IT_command_not_found_handle() {
     if [[ $# == 1 ]] ; then
         if [[ $1 =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]] || timeout 0.1 ping -c 1 $1 &>/dev/null ; then
             #full IP given: use as is

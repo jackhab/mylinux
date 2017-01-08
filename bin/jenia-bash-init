@@ -4,7 +4,7 @@ export PATH=${PATH}:~/my/bin
 
 
 #decorate ls
-alias ll='ls -lh  --group-directories-first --time-style="+%d/%m/%y %H:%M:%S"'
+alias ll='ls -lh  --group-directories-first --time-style="+%y-%m-%d %H:%M:%S"'
 alias la='ll -a'
 
 

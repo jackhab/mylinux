@@ -1,3 +1,15 @@
+#################### NOW ####################
+Working in a new sxbit layer, trying to add
+lecbt-ethernet-config.cfg
+lecbt-usbsdcard-config.cfg
+
+
+#############################################
+
+
+
+
+
 #STEP 0: enable virtualization in BIOS!
 
 #install virtualization packages

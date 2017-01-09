@@ -149,6 +149,9 @@ log changes in lines 1-5
 log changes containing 'return'
     git log -L /return/:main.cpp
 
+log with file names
+    git log --name-status 
+    
 --------------------------------------------------
 STASH
 --------------------------------------------------

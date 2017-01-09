@@ -26,8 +26,9 @@ alias o='xdg-open'
 
 
 #git
-alias gg='git log --all --graph --decorate --oneline'
-
+alias gtg='git log --all --graph --decorate --oneline'
+alias gts='git status'
+alias gtd='git diff'
 
 #fixes "Couldn't connect to accessibility bus" warning when using SSH
 export NO_AT_BRIDGE=1

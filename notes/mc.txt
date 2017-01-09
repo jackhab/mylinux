@@ -96,44 +96,44 @@ Ctrl-Left       word left
 Ctrl-Right      word right
 Ctrl-Up         scroll Up
 Ctrl-Down       scroll Down
-Ctrl-pgup       top On Screen
-Ctrl-pgdn       bottom On Screen
-Alt-BS          delete To Word start
-Alt-d           delete To Word End
-Ctrl-y          delete Line
-Ctrl-k          delete To End
+Ctrl-pgup       top of Screen
+Ctrl-pgdn       bottom of Screen
+Alt-BS          delete to word start
+Alt-d           delete to word End
+Ctrl-y          delete line
+Ctrl-k          delete to end
 F2              save
 Ctrl-n          edit New file
-F12|Ctrl-F2     saveAs
+F12|Ctrl-F2     save As
 F5              copy
 F6              move
 F8              remove
 F7              search
 F17             searchContinue
 F3              mark
-Shift-pgup      markPageUp
-Shift-pgdn      markPageDown
-Shift-Left      markLeft
-Shift-Right     markRight
-Ctrl-Shift-Left markToWordBegin
-Ctrl-Shift-RightmarkToWordEnd
-Shift-Up        markUp
-Shift-Down      markDown
-Shift-home      markToHome
-Shift-end       markToEnd
-Ctrl-Shift-home markToFileBegin
-Ctrl-Shift-end  markToFileEnd
-Ctrl-Shift-pgup markToPageBegin
-Ctrl-Shift-pgdn markToPageEnd
-Ctrl-Shift-Up   markScrollUp
-Ctrl-Shift-Down markScrollDown
-Alt-pgup        markColumnPageUp
-Alt-pgdn        markColumnPageDown
-Alt-Left        markColumnLeft
-Alt-Right       markColumnRight
-Alt-Up          markColumnUp
-Alt-Down        markColumnDown
-Ctrl-f          blockSave
+Shift-pgup      mark PageUp
+Shift-pgdn      mark PageDown
+Shift-Left      mark Left
+Shift-Right     mark Right
+Ctrl-Shift-Left mark ToWordBegin
+Ctrl-Shift-Rightmark ToWordEnd
+Shift-Up        mark Up
+Shift-Down      mark Down
+Shift-home      mark ToHome
+Shift-end       mark ToEnd
+Ctrl-Shift-home mark ToFileBegin
+Ctrl-Shift-end  mark ToFileEnd
+Ctrl-Shift-pgup mark ToPageBegin
+Ctrl-Shift-pgdn mark ToPageEnd
+Ctrl-Shift-Up   mark ScrollUp
+Ctrl-Shift-Down mark ScrollDown
+Alt-pgup        mark ColumnPageUp
+Alt-pgdn        mark ColumnPageDown
+Alt-Left        mark ColumnLeft
+Alt-Right       mark ColumnRight
+Alt-Up          mark ColumnUp
+Alt-Down        mark ColumnDown
+Ctrl-f          block Save
 F13             markColumn
 F4              replace
 F14             replaceContinue

@@ -1,3 +1,16 @@
+#################### NOW ####################
+Working in a new sxbit layer, trying to add
+lecbt-ethernet-config.cfg
+lecbt-usbsdcard-config.cfg
+no-timelimit-config.cfg
+
+
+#############################################
+
+
+
+
+
 #STEP 0: enable virtualization in BIOS!
 
 #install virtualization packages
@@ -41,6 +54,8 @@ bitbake linux-yocto -C compile
 
 #kernel config location
 /home/jackhab/poky-jethro/meta-intel/tmp/work/corei7-64-intel-common-poky-linux/linux-yocto/3.14.62+gitAUTOINC+189154c0ed_27d9a1914b-r0/linux-corei7-64-intel-common-standard-build/.config
+/home/jenia/poky-jethro/build/tmp/work/corei7-64-intel-common-poky-linux/linux-yocto/3.14.62+gitAUTOINC+189154c0ed_27d9a1914b-r0/linux-corei7-64-intel-common-standard-build
+                                                                         
 
 
 #list core pre-diefined images

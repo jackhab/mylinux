@@ -1,6 +1,0 @@
-ENTRY "/" URL "/"
-ENTRY "/etc" URL "/etc"
-ENTRY "/root" URL "/root"
-ENTRY "/home/jenia" URL "/home/jenia"
-ENTRY "/home/jenia/.config/mc" URL "/home/jenia/.config/mc"
-ENTRY "/tmp" URL "/tmp"

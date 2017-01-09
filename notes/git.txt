@@ -1,4 +1,21 @@
 --------------------------------------------------
+CONFIGURATION
+--------------------------------------------------
+git config --list
+git config --global user.name "jackhab"
+git config --global user.email "jackhab@gmail.com"
+git config --global core.editor vim
+git config --global core.pager "cat"
+git config --global --add difftool.prompt false
+git config --global diff.tool meld
+git config --global mergetool.meld.cmd 'meld $LOCAL $MERGED $REMOTE'
+git config --global difftool.meld.cmd 'meld $LOCAL $REMOTE'
+git config branch.master.rebase true                #use --rebase when pulling to prevent merge commits created after each pull
+git config --global branch.autosetuprebase always   #use --rebase for all tracking branches
+git config --global credential.helper cache         #remember repo password for 15 minutes
+
+
+--------------------------------------------------
 REPO
 --------------------------------------------------
 create local working repo
@@ -21,23 +38,6 @@ add a new remote repo
     git remote add pb https://github.com/paulboone/ticgit
     git fetch pb
 
-
---------------------------------------------------
-CONFIGURATION
---------------------------------------------------
-git config --list
-git config --global user.name "John Doe"
-git config --global user.email johndoe@example.com
-git config --global core.editor vim
-git config --global core.pager "cat"
-git config --global --add difftool.prompt false
-git config --global mergetool.meld.cmd 'meld $LOCAL $MERGED $REMOTE'
-git config --global diff.tool meld
-git config --global difftool.meld.cmd 'meld $LOCAL $REMOTE'
-git config branch.master.rebase true
-git config --global branch.autosetuprebase always
-#remember repo password for 15 minutes
-git config --global credential.helper cache
 
 --------------------------------------------------
 DIFF

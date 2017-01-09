@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#reset terminal colors on exit
 trap 'tput cnorm ; kill $(jobs -p)' EXIT
 
 

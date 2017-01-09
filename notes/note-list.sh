@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #generate an array of sorted file names and full paths
-IFS=$'\n' Files=($(find $HOME/Dropbox/Notes/Linux -type f -printf '%f\t%p\n' | sort | tr '\t' '\n'))
+IFS=$'\n' Files=($(find $HOME/my/notes -type f -printf '%f\t%p\n' | sort | tr '\t' '\n'))
 
 # for f in "${Files[@]}" ; do echo $f ; done ; exit
 

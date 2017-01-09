@@ -1,0 +1,6 @@
+#!/bin/bash
+
+File=$(realpath "$1")
+File="Z:\\${File////\\}" 
+
+/opt/npp/notepad++.exe "$File" &

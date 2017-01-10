@@ -1,5 +1,5 @@
 --------------------------------------------------
-﻿FILE OPERATIONS
+FILE OPERATIONS
 --------------------------------------------------
 :e / e. / e!        edit file / open dir / revert
 ZZ / ZQ             save / discard and quit
@@ -205,7 +205,6 @@ TABS
 :tabm 3             move tab to third position
 gt/gT/Ctrl-Alt-PgUD switch tabs
 :bufdo tabe         edit open files in tabs
-t
 
 
 --------------------------------------------------
@@ -229,6 +228,8 @@ q                   stop recording macro
 --------------------------------------------------
 VIMDIFF
 --------------------------------------------------
-vimdiff –o          horizontal split
-]c / [c             diff next / prev
-do /dp              diff put /obtain
+vimdiff –o          	horizontal split
+]c / [c             	diff next / prev
+do /dp              	diff put /obtain
+Ctrl-W W				switch window
+:set diffopt+=iwhite	ignore whitespace

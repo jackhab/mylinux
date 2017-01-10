@@ -199,11 +199,12 @@ fi
 
 
 #run ls if directory changed
-PrevDir=$(tty)
+PrevDir=$(tty) 
 PrevDir=/tmp/prev-dir${PrevDir////-}
+#don't ls when shell launched
 echo $PWD > $PrevDir
 LsAfterCd() {
-    [[ "$(cat $PrevDir)" == "$PWD" ]] && return 0
+    [[ "$(< $PrevDir)" == "$PWD" ]] && return 0
     
     ll --color=always | sed 1d
 

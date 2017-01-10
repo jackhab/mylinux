@@ -94,93 +94,75 @@ Shift-Ins       paste
 Shift-Del       cut
 Ctrl-Left       word left
 Ctrl-Right      word right
-Ctrl-Up         scroll Up
-Ctrl-Down       scroll Down
-Ctrl-pgup       top of Screen
-Ctrl-pgdn       bottom of Screen
+Ctrl-Up         scroll up
+Ctrl-Down       scroll down
+Ctrl-pgup       top of screen
+Ctrl-pgdn       bottom of screen
 Alt-BS          delete to word start
-Alt-d           delete to word End
+Alt-d           delete to word end
 Ctrl-y          delete line
 Ctrl-k          delete to end
 F2              save
-Ctrl-n          edit New file
-F12|Ctrl-F2     save As
+Ctrl-n          edit new file
+F12|Ctrl-F2     save as
 F5              copy
 F6              move
 F8              remove
 F7              search
-F17             searchContinue
+Shift-F7        search again
 F3              mark
-Shift-pgup      mark PageUp
-Shift-pgdn      mark PageDown
-Shift-Left      mark Left
-Shift-Right     mark Right
-Ctrl-Shift-Left mark ToWordBegin
-Ctrl-Shift-Rightmark ToWordEnd
-Shift-Up        mark Up
-Shift-Down      mark Down
-Shift-home      mark ToHome
-Shift-end       mark ToEnd
-Ctrl-Shift-home mark ToFileBegin
-Ctrl-Shift-end  mark ToFileEnd
-Ctrl-Shift-pgup mark ToPageBegin
-Ctrl-Shift-pgdn mark ToPageEnd
-Ctrl-Shift-Up   mark ScrollUp
-Ctrl-Shift-Down mark ScrollDown
-Alt-pgup        mark ColumnPageUp
-Alt-pgdn        mark ColumnPageDown
-Alt-Left        mark ColumnLeft
-Alt-Right       mark ColumnRight
-Alt-Up          mark ColumnUp
-Alt-Down        mark ColumnDown
-Ctrl-f          block Save
-F13             markColumn
+Shift-pgup      mark page up
+Shift-pgdn      mark page down
+Shift-Left      mark left
+Shift-Right     mark right
+Ctrl-Shift-Left mark to word begin
+Ctrl-Shift-Rightmark to word end
+Shift-Up        mark up
+Shift-Down      mark down
+Shift-home      mark to home
+Shift-end       mark to end
+Ctrl-Shift-Home mark to file begin
+Ctrl-Shift-End  mark to file end
+Ctrl-Shift-PgUp mark to page begin
+Ctrl-Shift-PgDn mark to page end
+Ctrl-Shift-Up   mark scroll up
+Ctrl-Shift-Down mark scroll down
+Alt-pgup        mark column page up
+Alt-pgdn        mark column page down
+Alt-Left        mark column left
+Alt-Right       mark column right
+Alt-Up          mark column up
+Alt-Down        mark column down
+Ctrl-f          block save
+F13             markcolumn
 F4              replace
-F14             replaceContinue
+Shift-F4        replace continue
 Alt-tab         complete
-F15             insertFile
-f10; esc        quit
-insert          insertOverwrite
+Shift-F5        insert file
+F10             quit
+Insert          insert/overwrite
 F1              help
 Ctrl-l          refresh
 Alt-l           goto
 Alt-t           sort
 Alt-m           mail
-Alt-p           paragraphFormat
-Alt-b           matchBracket
-Alt-u           externalCommand
-F11             userMenu
+Alt-p           paragraph format
+Alt-b           match bracket
+Alt-u           external command
+F11             user menu
 F9              menu
 Alt-k           bookmark
-Alt-o           bookmarkFlush
-Alt-j           bookmarkNext
-Alt-i           bookmarkPrev
+Alt-o           bookmark flush
+Alt-j           bookmark next
+Alt-i           bookmark prev
 Ctrl-o          shell
-Ctrl-q          insertLiteral
-Ctrl-r          macroStartStopRecord
-Alt-n           showNumbers
-Alt-underline   showTabTws
-Ctrl-s          syntaxOnOff
-Alt-enter       find
-Alt-minus       filePrev
-Alt-plus        fileNext
-Alt-e           selectCodepage
-Ctrl-p          spellCheckCurrentWord
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Ctrl-q          insert literal
+Ctrl-r          macro start/stop record
+Alt-n           show numbers
+Alt-underline   show tab
+Ctrl-s          syntax on/off
+Alt-e           selectcodepage
+Ctrl-p          spellcheck current word
 
 
 
@@ -188,11 +170,11 @@ Ctrl-p          spellCheckCurrentWord
 --------------------------------------------------
 HELP
 --------------------------------------------------
-f2; c     Index
-f3; left; l     Back
-f10; esc     Quit
-up; Ctrl-p     Up
-down; Ctrl-n     Down
+F2 c     Index
+F3/left/l     Back
+F10/Esc     Quit
+up/Ctrl-p     Up
+down/ Ctrl-n     Down
 f; SP; pgdn; Ctrl-v     PageDown
 b; pgup; Alt-v; backSP     PageUp
 d     HalfPageDown

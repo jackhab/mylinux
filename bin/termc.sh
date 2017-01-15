@@ -22,7 +22,7 @@ tmux 	new-session "/usr/bin/mc" \;\
 		split-window "tmux list-panes -F '#{pane_active} #{pane_pid}' -t $Session | head -n 1 | grep -oP '(?<=\s)\d+' > $DirFile ; bash" \;\
 		bind-key -n F10 kill-session -t $Session \;\
 		bind-key -n C-Down select-pane -t:.1 \\\; send-keys cdmc Enter \;\
-		bind-key -n C-Up select-pane -t:.0 \;\
+		bind-key -n C-Up select-pane -t:.0 \\\; send-keys C-r \;\
 		set-option -g status off \;\
 		set-option -g mouse on \;\
 		select-pane -t:.0

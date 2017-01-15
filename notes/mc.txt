@@ -36,15 +36,16 @@ Alt-`           screen list
 --------------------------------------------------
 COMMAND LINE
 --------------------------------------------------
-Ctrl-o          show shell
-Alt-h           command history
-Alt-Enter       drop active file name
-Ctrl-x p        drop active path
-Ctrl-x t        drop active selection
-Ctrl-x r        drop active link target
-Ctrl-x Ctrl-p   drop inactive path
-Ctrl-x Ctrl-t   drop inactive selection
-Ctrl-x Ctrl-r   drop inactive link target
+Ctrl-o          	show shell
+Alt-h           	command history
+Ctrl-Enter      	drop active file name
+Ctrl-Shift-Enter	drop active full file name
+Ctrl-x p        	drop active path
+Ctrl-x t        	drop active selection
+Ctrl-x r        	drop active link target
+Ctrl-x Ctrl-p   	drop inactive path
+Ctrl-x Ctrl-t   	drop inactive selection
+Ctrl-x Ctrl-r   	drop inactive link target
 
 
 --------------------------------------------------

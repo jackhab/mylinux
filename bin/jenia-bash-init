@@ -246,4 +246,5 @@ I_DISABLED_IT_command_not_found_handle() {
     echo "'$1' command not found"
 }
 
-
+#don't overwrite history: append to it
+shopt -s histappend

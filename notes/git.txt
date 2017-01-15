@@ -64,11 +64,14 @@ commit files
     git commit -m 'initial project version'
     git status -s
 
+add only a part of a file to commit
+	git add --patch main.c
+	
 commit all files, skip staging
     git commit -a -m 'added new benchmarks'
 
-change commit message
-    git commit --amend -m "New commit message"
+update previous commit with new changes (inlcuding comments)
+    git commit --amend
 
 
 --------------------------------------------------
@@ -118,6 +121,9 @@ switch to branch
 create and switch to branch
     git checkout -b BRANCH
 
+set local master to track origin/master
+	git branch master -u origin/master
+	
 push local branch to origin
     git push -u origin BRANCH[:branches/user/BRANCH]
 
@@ -136,7 +142,10 @@ delete branch
 delete remote branch
     git push origin --delete BRANCH
 
-
+make bar to point to newbar (e.g. before removing newbar)
+	git checkout bar
+	git reset --hard newbar 
+	
 --------------------------------------------------
 LOG
 --------------------------------------------------

@@ -34,7 +34,7 @@ tmux kill-session -t TMUXER 2>&1 > /dev/null
 tmux    new-session "$Cmd" \; rename TMUXER  \;\
         set-option -g mouse-select-pane on \;\
         set-option -g mouse-resize-pane on \;\
-        bind-key -n C-a split-window "$Cmd" \\\; select-layout tiled\;\
+        bind-key -n C-a split-window "$Cmd" \\\; select-layout tiled \;\
         bind-key -n C-q kill-session -t TMUXER \;\
         set-option -g status-left-length 100 \;\
         set-option -g status-left 'Ctrl- #[fg=red]Q#[default]uit #[fg=red]A#[default]dd New' \;\

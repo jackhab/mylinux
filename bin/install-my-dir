@@ -1,0 +1,25 @@
+#!/bin/bash
+
+#if grep jenia-bash-init ~/.bashrc ; then
+	cd ~
+
+	echo -e "\n\n . ~/my/bin/jenia-bash-init" >> ~/.bashrc
+	echo "installed jenia-bash-init"
+	
+	mv ~/.vimrc ~/.vimrc.bak
+	mv ~/.vim   ~/.vim.bak
+	ln -s ~/my/conf/.vim/.vimrc ~/.vimrc
+	ln -s ~/my/conf/.vim ~/.vim
+	echo "installed vim conf"
+
+	mv ~/.config/mc ~/.config/mc.bak
+	ln -s ~/my/conf/mc ~/.config/mc
+	echo "installed mc conf"
+
+	cd -
+#else
+#	echo "jenia-bash-init already in .bashrc"
+#fi
+
+
+

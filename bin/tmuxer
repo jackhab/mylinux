@@ -1,15 +1,5 @@
 #!/bin/bash
 
-##############################################################################
-# Run a command in multiple panes using tmux
-#
-# Usage:
-#         tmux PANE-COUNT CMD
-#
-# Author: Jenia Habinsky
-##############################################################################
-
-
 if [[ -z "$1" ]] ; then
 	echo Run a command in multiple panes using tmux
 	echo Usage:

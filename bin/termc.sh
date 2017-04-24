@@ -1,12 +1,20 @@
 #!/bin/bash
+set -x
+if [[ "$1" == "debug" ]] ; then
+	export Debug=""
+fi
 
 export Session="TERMC-$RANDOM"
 export McPidFile="/tmp/$Session"
 
+
+unset -f cdmc
 cdmc() {
 	cd $(readlink /proc/$(cat $McPidFile)/cwd)
+	[[ -v Debug ]] && echo "${McPidFile}: $(< $McPidFile)"
 }
 export -f cdmc
+export -f
 
 #launch MC, get the PID of pane 0 process and save it to file
 tmux 	new-session "/usr/bin/mc" \;\

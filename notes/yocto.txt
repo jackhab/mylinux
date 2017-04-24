@@ -1,8 +1,45 @@
 #################### NOW ####################
 Working in a new sxbit layer, trying to add
-lecbt-ethernet-config.cfg
+lecbt-ethernet-config.cfg	OK
+
+Compare Intel layer in lecbt and vv
+
+
+
 lecbt-usbsdcard-config.cfg
 no-timelimit-config.cfg
+
+FAIL: cannot activate flash in my layer based on vv layer
+
+FAIL
+Working in lecbt layer, trying to add GPIO
+VV:
+CONFIG_ARCH_WANT_OPTIONAL_GPIOLIB=y
+CONFIG_GPIOLIB=y
+CONFIG_GPIO_ACPI=y
+CONFIG_GPIO_SYSFS=y
+
+CONFIG_GPIO_DEVRES=y
+
+LECBT:
+CONFIG_ARCH_WANT_OPTIONAL_GPIOLIB=y
+CONFIG_GPIOLIB=y
+CONFIG_GPIO_ACPI=y
+CONFIG_GPIO_SYSFS=y
+
+CONFIG_GENERIC_GPIO=y
+CONFIG_GPIO_ICH=y
+CONFIG_GPIO_PCA953X=y
+CONFIG_GPIO_PCA953X_IRQ=y
+CONFIG_I2C_MUX_GPIO=y
+
+Try1:	FAIL
+add CONFIG_GPIO_DEVRES=y to lecbt
+
+
+
+
+
 
 
 #############################################
@@ -50,7 +87,9 @@ ls -l ~/poky-jethro/build/tmp/deploy/images/valleyisland-64/
 
 #kernel modification and rebuild
 bitbake linux-yocto -c menuconfig
-bitbake linux-yocto -C compile
+bitbake linux-yocto -C compile && 
+bitbake core-image-minimal	#to rebuild the image
+
 
 #kernel config location
 /home/jackhab/poky-jethro/meta-intel/tmp/work/corei7-64-intel-common-poky-linux/linux-yocto/3.14.62+gitAUTOINC+189154c0ed_27d9a1914b-r0/linux-corei7-64-intel-common-standard-build/.config
@@ -58,8 +97,9 @@ bitbake linux-yocto -C compile
                                                                          
 
 
-#list core pre-diefined images
+#list core pre-defined images
 find meta -name 'core-image*'
 
 #list layers
 bitbake show-layers
+

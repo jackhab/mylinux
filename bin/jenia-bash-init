@@ -16,7 +16,6 @@ alias yum='sudo yum -y'
 alias apt-get='sudo apt-get -y'
 alias wireshark='sudo wireshark'
 alias virsh='sudo virsh'
-alias ifconfig='sudo ifconfig'
 alias ethtool='sudo ethtool'
 alias ssh='ssh -X'
 

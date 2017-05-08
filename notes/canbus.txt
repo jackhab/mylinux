@@ -6,7 +6,7 @@ Test canbus:
 cansend can0 7DF#0201050000000000
 
 Servo controller
-	G-TWI10/100SE Gold Servo from Elmo Motion Control http://www.elmomc.com/products/gold-twitter-servo-drive.htm
+	G-TWI10/100SE Gold Twitter Servo from Elmo Motion Control http://www.elmomc.com/products/gold-twitter-servo-drive.htm
 	DS-301 DS-305 DS-402
 	Power supply 10-95VD (tested with 24V/60mA)
 
@@ -17,7 +17,13 @@ CanFestival installation:
 	./configure --arch=armv6 --target=unix --can=socket
 	make
 	sudo make install
-	
+
+Generate a dictionary
+	sudo apt-get install python-wxtools
+	cd objdictgen
+	python objdictedit.py
+
+
 KaCanOpen C++ library
 	depends on boost, not built 
 	

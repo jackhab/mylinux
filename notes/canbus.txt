@@ -4,5 +4,17 @@ On Pi setup PICAN 2 board from http://skpang.co.uk/blog/archives/1165
 
 cansend can0 7DF#0201050000000000
 
+Servo controller
+	G-TWI10/100SE Gold Servo from Elmo Motion Control http://www.elmomc.com/products/gold-twitter-servo-drive.htm
+	DS-301 DS-305 DS-402
 
-
+CanFestival installation:
+	wget http://dev.automforge.net/CanFestival-3/archive/tip.tar.bz2
+	tar -xvjf tip.tar.bz2
+	cd CanFestival-3-8bfe0ac00cdb
+	./configure --arch=armv6 --target=unix --can=socket
+	make
+	sudo make install
+	
+	
+	

@@ -1,5 +1,8 @@
-PICAN 2 board setup
+On Windows setup Peak USBCAN monitor from http://www.peak-system.com/fileadmin/media/files/usb.zip
 
-http://skpang.co.uk/blog/archives/1165
+On Pi setup PICAN 2 board from http://skpang.co.uk/blog/archives/1165
+
+cansend can0 7DF#0201050000000000
+
 
 

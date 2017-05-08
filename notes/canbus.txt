@@ -2,11 +2,13 @@ On Windows setup Peak USBCAN monitor from http://www.peak-system.com/fileadmin/m
 
 On Pi setup PICAN 2 board from http://skpang.co.uk/blog/archives/1165
 
+Test canbus:
 cansend can0 7DF#0201050000000000
 
 Servo controller
 	G-TWI10/100SE Gold Servo from Elmo Motion Control http://www.elmomc.com/products/gold-twitter-servo-drive.htm
 	DS-301 DS-305 DS-402
+	Power supply 10-95VD (tested with 24V/60mA)
 
 CanFestival installation:
 	wget http://dev.automforge.net/CanFestival-3/archive/tip.tar.bz2
@@ -16,5 +18,9 @@ CanFestival installation:
 	make
 	sudo make install
 	
+KaCanOpen C++ library
+	depends on boost, not built 
 	
+Very basic tutorial
+	http://www.byteme.org.uk/2015/11/12/canopen-on-a-raspberry-pi-using-canfestival/
 	

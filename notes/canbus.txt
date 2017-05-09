@@ -2,9 +2,6 @@ On Windows setup Peak USBCAN monitor from http://www.peak-system.com/fileadmin/m
 
 On Pi setup PICAN 2 board from http://skpang.co.uk/blog/archives/1165
 
-Test canbus:
-cansend can0 7DF#0201050000000000
-
 Servo controller
 	G-TWI10/100SE Gold Twitter Servo from Elmo Motion Control http://www.elmomc.com/products/gold-twitter-servo-drive.htm
 	DS-301 DS-305 DS-402
@@ -49,5 +46,8 @@ Eclipse CDT
 	install Eclipse
 	sudo apt-get eclipse-cdt
 	
-	
-
+Test canbus with Linux tool:
+	cansend can0 7DF#0201050000000000
+Test canbus with canfestival tool - write via socket, interface can0, at 5Kbps, ID=8:
+	./CANOpenShell load#libcanfestival_can_socket.so,can0,5K,8,1
+	./CANOpenShell load#libcanfestival_can_socket.so,can0,5K,8,1 wait#3 wsdo#42,6200,01,01,FF

@@ -30,3 +30,23 @@ KaCanOpen C++ library
 Very basic tutorial
 	http://www.byteme.org.uk/2015/11/12/canopen-on-a-raspberry-pi-using-canfestival/
 	
+Eclipse CDT
+	install Oracle Java ARM-32 from http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+	sudo tar zxvf jdk-8-linux-arm-vfp-hflt.tar.gz -C /opt
+
+	Set default java and javac to the new installed jdk8:
+	sudo update-alternatives --install /usr/bin/javac javac /opt/jdk1.8.0/bin/javac 1
+	sudo update-alternatives --install /usr/bin/java java /opt/jdk1.8.0/bin/java 1
+	sudo update-alternatives --config javac
+	sudo update-alternatives --config java
+	java -version
+	javac -version
+	
+	Remove old settings
+	rm -rf ~/.eclipse ~/workspace
+	
+	install Eclipse
+	sudo apt-get eclipse-cdt
+	
+	
+

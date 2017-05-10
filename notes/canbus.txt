@@ -1,3 +1,19 @@
+CANopen Basics Tutorial:
+	http://www.canopensolutions.com/english/about_canopen/about_canopen.shtml
+
+	
+Terms:
+	object dictionary - device description in terms of CAN parameters
+	device profile - standard set of parameters for given device type (e.g. motion device profile)
+	electronical data sheet (EDS) - ASCII/XML description of the dictionary
+	service data objects (SDO) - allows for direct addressing of an object using its index and subindex. It is used for configuration, large data blocks, requires an additional protocol overhead
+	process data objects (PDO) - datalength is limited to eight byte without addressing, does not contain any protocol overhead, can contain several values, has to be predefined, 512 PDOs limit
+	emergency messages - error codes are specified in DS-301: eight bytes Error Code	| Error Register | Vendor specific error field
+	network management (NMT) - used to monitor and control communication state of CAN nodes
+	Layer Setting Services (LSS) - used to negotiate communication settings if the devices are not preconfigured
+	
+	
+	
 On Windows setup Peak USBCAN monitor from http://www.peak-system.com/fileadmin/media/files/usb.zip
 
 On Pi setup PICAN 2 board from http://skpang.co.uk/blog/archives/1165
@@ -6,6 +22,8 @@ Servo controller
 	G-TWI10/100SE Gold Twitter Servo from Elmo Motion Control http://www.elmomc.com/products/gold-twitter-servo-drive.htm
 	DS-301 DS-305 DS-402
 	Power supply 10-95VD (tested with 24V/60mA)
+	Baudrate: CAN 50K-1M, RS232 4800-57600 (ASCII only)
+	RTR is not supported
 
 CanFestival installation:
 	wget http://dev.automforge.net/CanFestival-3/archive/tip.tar.bz2
@@ -48,6 +66,22 @@ Eclipse CDT
 	
 Test canbus with Linux tool:
 	cansend can0 7DF#0201050000000000
+	
 Test canbus with canfestival tool - write via socket, interface can0, at 5Kbps, ID=8:
 	./CANOpenShell load#libcanfestival_can_socket.so,can0,5K,8,1
 	./CANOpenShell load#libcanfestival_can_socket.so,can0,5K,8,1 wait#3 wsdo#42,6200,01,01,FF
+	
+	
+	
+/usr/bin/ld: Warning: type of symbol `canChangeBaudRate_driver' changed from 2 to 1 in /usr/local/lib/libcanfestival_unix.a(unix.o)
+pi@raspberrypi:/usr/local/lib $ nm libcanfestival_unix.a | grep canChangeBaudRate_driver
+0000000c B canChangeBaudRate_driver
+pi@raspberrypi:/usr/local/lib $ nm libcanfestival_can_socket.so | grep canChangeBaudRate_driver
+00000a78 T canChangeBaudRate_driver
+
+	
+	
+	
+	
+	
+	

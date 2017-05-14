@@ -209,7 +209,6 @@ LsAfterCd() {
 
     echo $PWD > $PrevDir
 }
-PROMPT_COMMAND=LsAfterCd
 
 
 #more user-friendly Bash: normally these settings go into ~/.inputrc
@@ -225,3 +224,34 @@ fi
 
 #don't overwrite history: append to it
 shopt -s histappend
+
+
+#persistent Bash history
+export HISTTIMEFORMAT="%F %T  "
+log_bash_persistent_history()
+{
+    local rc=$?
+        [[ $(history 1) =~ ^\ *[0-9]+\ +([^\ ]+\ [^\ ]+)\ +(.*)$ ]]
+        local date_part="${BASH_REMATCH[1]}"
+        local command_part="${BASH_REMATCH[2]}"
+        if [ "$command_part" != "$PERSISTENT_HISTORY_LAST" ]
+        then
+            echo $date_part "|" "$command_part" >> ~/.persistent_history
+            export PERSISTENT_HISTORY_LAST="$command_part"
+        fi
+}
+
+# Stuff to do on PROMPT_COMMAND
+run_on_prompt_command()
+{
+    log_bash_persistent_history
+    LsAfterCd
+}
+
+PROMPT_COMMAND="run_on_prompt_command"
+#persistent Bash history end
+
+
+
+
+

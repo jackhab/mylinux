@@ -1,19 +1,62 @@
 --------------------------------------------------
+GENERAL
+--------------------------------------------------
+specifying revisions and ranges for Git
+    man gitrevisions
+git command line interface and conventions
+    man gitcli
+general command format
+        gitcmd REVISIONS PATHS
+    if REVISIONS and PATHS can be confused use --
+    show diff for file names HEAD
+        git diff -- HEAD
+    show diff for revision HEAD and working tree
+        git diff HEAD --
+    
+    
+--------------------------------------------------
 CONFIGURATION
 --------------------------------------------------
 git config --list
+
 git config --global user.name "jackhab"
 git config --global user.email "jackhab@gmail.com"
+
 git config --global core.editor vim
 git config --global core.pager "cat"
-git config --global --add difftool.prompt false
-git config --global diff.tool meld
-git config --global mergetool.meld.cmd 'meld $LOCAL $MERGED $REMOTE'
-git config --global difftool.meld.cmd 'meld $LOCAL $REMOTE'
-git config branch.master.rebase true                #use --rebase when pulling to prevent merge commits created after each pull
-git config --global branch.autosetuprebase always   #use --rebase for all tracking branches
+
+git config --global push.default upstream           #push to remote branch this local branch was created from
+git config --global branch.autosetuprebase always   #always rebase when pulling to prevent merge commits created after pulling remote branch
+git config branch.master.rebase true                #rebase while pulling master branch (if it was created before global options was set)
+
+git config --global push.followTags true            #always push tags to remote 
+
 git config --global credential.helper cache         #remember repo password for 15 minutes
 
+git config --global format.pretty '%C(auto)%h%d%<(18,trunc) %ci %<(5,trunc)%ae %C(white bold)%s%C(reset)'
+
+git config --global alias.loga "log --graph --all"
+git config --global alias.dt   "difftool"
+
+#tortoise difftool
+git config --global --add difftool.prompt false
+git config --global diff.tool TortoiseGitMerge
+git config --global difftool.TortoiseGitMerge.path 'c:\Program Files\TortoiseGit\bin\TortoiseGitMerge.exe'
+git config --global difftool.TortoiseGitMerge.cmd 'TortoiseGitMerge -mine "$REMOTE" -base "$LOCAL"'
+git config --global merge.tool TortoiseGitMerge
+git config --global mergetool.TortoiseGitMerge.path 'c:\Program Files\TortoiseGit\bin\TortoiseGitMerge.exe'
+git config --global mergetool.TortoiseGitMerge.cmd 'TortoiseGitMerge -base "$BASE" -theirs "$REMOTE" -mine "$LOCAL" -merged "$MERGED"'
+
+#meld difftool
+git config --global --add difftool.prompt false
+git config --global diff.tool meld
+git config --global difftool.meld.cmd 'meld $LOCAL $REMOTE'
+git config --global merge.tool meld
+git config --global mergetool.meld.cmd 'meld $LOCAL $MERGED $REMOTE --output "$MERGED"'
+
+#meld difftool on Windows
+git config --global difftool.meld.path 'c:\Program Files (x86)\Meld\Meld.exe'
+git config --global mergetool.meld.path 'c:\Program Files (x86)\Meld\Meld.exe'
 
 --------------------------------------------------
 REPO
@@ -21,23 +64,35 @@ REPO
 create local working repo
     git init
 
-create remote repo: always should be bare
+create remote bare repo
     git --bare init
 
 convert non-bare working repo into bare one
-    git clone --bare -l non_bare_repo new_bare_repo
-
+    cp -r .git /somepath/repo.git
+    cd /somepath/repo.git
+    git config --bool core.bare true
+    cd -
+    git remote add origin /somepath/repo.git    
+    
 clone a repo
     git clone https://github.com/libgit2/libgit2
 
 show remote repos
     git remote -v
 
+add new origin
+    git remote add origin git@github.com:User/UserRepo.git
+
 add a new remote repo
-    git remote add local_proj /opt/git/project.git
+    git remote add netrepo file://u:/Repo
     git remote add pb https://github.com/paulboone/ticgit
     git fetch pb
+    
+remove obsolete branches not present in remote
+    git remote prune origin
 
+merge changes from remote repo without creating merge commit
+    git pull --rebase
 
 --------------------------------------------------
 DIFF
@@ -45,14 +100,14 @@ DIFF
 show unstaged changes
     git diff
 
-show staged changes
-    git diff --staged
+show staged changes relative to commit or HEAD by default
+    git diff --staged OR --cached
 
 show changes in line, whole functions, no whitespace changes
     git diff --color-words -W -w
 
 show changes of commit with its parent
-git diff COMMIT^!
+    git diff COMMIT^!
 
 
 --------------------------------------------------
@@ -65,39 +120,107 @@ commit files
     git status -s
 
 add only a part of a file to commit
-	git add --patch main.c
-	
+    git add --patch main.c
+    
 commit all files, skip staging
     git commit -a -m 'added new benchmarks'
 
-update previous commit with new changes (inlcuding comments)
+change commit message
+    git commit --amend -m "New commit message"
+    
+add file to last commit
+    git add forgotten_file
     git commit --amend
+	
+change file case
+	git mv -f name.java Name.java
 
 
 --------------------------------------------------
-REVERT
+REVERT / REMOVE
 --------------------------------------------------
+
+   |stash--------stash------------->|
+   |               |                |push------->|
+   |               |commit--------->|            |
+   |add----------->|                |            |
+WORKSPACE        INDEX             REPO        ORIGIN
+   |<--------------+----------------+--------pull|
+   |               |                |<------fetch|
+   |<--------------+-----------merge|
+   |<--------------+---checkout HEAD|            |
+   |<------checkout|                |            |
+   |---------------+-------diff HEAD|            |
+   |-----------diff|                |            |
+   |<--------------+------------------------clone|
+
+git checkout
+	moves HEAD to a commit
+	when HEAD is not on a brach it is "detached"
+
+git revert
+	safely undo a commit by applying reverse patch of it in working tree
+	
+git reset
+	moves both HEAD and branch refs
+	leaves some commits dangling
+	modifies index and commit history based on soft/mixed/hard options
+	--hard: brings commit hitory, index and wc to a commit, undone changes are LOST
+	--mixed: default, brings commit hitory and index to a commit, undone changed are moved to working copy
+	--soft: 
+
+READ	
+https://www.atlassian.com/git/tutorials/undoing-changes/git-reset	
+AND COMPLETE THE DIAGRAM	
+
 revert staged changes in working dir
     git reset --
+
+unstage staged changes in working dir
+    git reset --
+
+unstage staged file
+    git reset HEAD myfile
+    
+get two-commits old myfile into stage
+    git reset HEAD~2 myfile
+
+get two-commits old myfile into stage hunk-by-hunk
+    git reset -p HEAD~2 myfile
+
+revert last commit, keep changes staged
+    git reset --soft HEAD^
+
+revert last commit, keep changes unstaged
+    git reset HEAD^
 
 revert unstaged changes in working dir
     git checkout -- .
 
+discard unstaged changes in working dir
+    git checkout -- .
+
 discard unstaged changes in file
     git checkout myfile
-
-get two-commits old myfile into stage, keeps working dir untouched
-    git reset HEAD~2 myfile
+    
+get two-commits old myfile into working dir
+    git checkout HEAD~2 myfile
 
 get two commits old myfile into working dir, keeps stage and HEAD untouched
     git checkout HEAD~2 myfile
-
 
 --------------------------------------------------
 REMOVE
 --------------------------------------------------
 remove staged file, keep it working dir
     git rm --cached myfile
+
+untrack file without deleting from working copy    
+    echo "FILE_NAME" >> .gitignore
+    git rm --cached FILE_NAME
+    git add -u	#stage deleted files
+    git commit -m "removed file from version control"
+
 
 
 --------------------------------------------------
@@ -110,7 +233,7 @@ list obsolete merged branches
     git branch --merged
 
 list remote branches
- git branch -r
+    git branch -r
 
 create a new branch, without switching to it
     git branch BRANCH
@@ -121,31 +244,58 @@ switch to branch
 create and switch to branch
     git checkout -b BRANCH
 
+create unrelated branch (e.g. for multi-project repo)
+    git checkout --orphan branch-name
+    git rm -rf .         #clear original contents left after branch creation (also git rm --cached -r .)
+    
 set local master to track origin/master
-	git branch master -u origin/master
-	
-push local branch to origin
+    git branch master -u origin/master
+
+rename branch
+    git branch -m master master-run    
+
+push local branch to origin (-u sets default branch for push)
     git push -u origin BRANCH[:branches/user/BRANCH]
+    git push netrepo HEAD:master-run
+    
+connect local branch to origin to make it tracking
+    git branch -u origin/BRANCH
 
 checkout and track a branch from origin
-    git checkout -t origin/BRANCH
-
-merge branch as one commit
-    git merge BRANCH --squash
+    git checkout [-b MYBRANCH] -t origin/BRANCH
 
 merge changes from remote repo
     git pull --rebase
 
-delete branch
+merge branch as one commit
+    git merge BRANCH --squash
+
+delete local branch
     git branch -d BRANCH
 
 delete remote branch
     git push origin --delete BRANCH
 
 make bar to point to newbar (e.g. before removing newbar)
-	git checkout bar
-	git reset --hard newbar 
-	
+    git checkout bar
+    git reset --hard newbar 
+
+convert M--N--O--P--Qmaster to M--Nmaster
+                                   \--O--P--Qfeature
+    git branch feature
+    git checkout master
+    git reset --hard N
+
+add tag to revision
+    git tag TAG_NAME 3b7bdea
+    
+delete local tagname
+    git tag --delete tagname
+    
+delete remote tag
+    git push --delete origin tagname
+
+    
 --------------------------------------------------
 LOG
 --------------------------------------------------
@@ -178,3 +328,59 @@ restore files without re-staging them
 
 restore files with staging state
     git stash apply --index
+
+    
+    
+--------------------------------------------------
+.GITIGNORE
+--------------------------------------------------    
+dir/f.x                     /dir/f.x (full path is always relative to repo root)
+f.x                         f.x dir/f.x
+/f.x                        /f.x                  but not dir/f.x
+**/dir                      dir/1/f.x
+*.x                         f.x    
+*.x  !important.x           *.x                   but not important.log
+f?.x                        f0.x f2.x             but not f10.x
+f[0-9].x                    f0.x f1.x             but not f10.x 
+f[!01].x                    f2.x                  but not f0.x f01.x 
+xxx                         xxx - both files and dirs
+dir/ !dir/important.x       BROKEN! Cannot un-ignore file if whole directory ignored
+dir/**/f.x                  dir/f.x dir/1/f.x
+dir/*day/f.x                dir/monday/f.x dir/tuesday/f.x
+
+
+
+
+
+
+
+    
+
+--------------------------------------------------
+BACKUP BRANCH TO REMOTE REPO
+--------------------------------------------------
+git init --bare    
+git remote add jenialx ssh://jenia@110.1.0.12/home/jenia/trnc/.git
+git fetch jenialx
+
+
+MessLen=$(($Cols-20))
+    LDate="%<(18,trunc)%ci"
+    LName="%<(18,trunc)%ci"
+    LHash="%C(auto)%h"
+    #LMess="%<($(($Cols-12)),trunc)%C(white bold)%s%C(reset)"
+    #LMess="%<($MessLen,trunc)%C(white bold)%s%C(reset)"
+    LMess="%C(white bold)%s%C(reset)"
+    LRefs="%C(auto)%d"
+    LWrap1="%w($(($Cols-3)),1,20)"
+    CmdLog=
+    git log --all --graph --decorate=short --color --format=format:"%h %d %<(18,trunc) %ci %<(5,trunc)%ae %s"
+
+     
+git log --all --graph --decorate=short --color --format=format:"%C(auto)%h%d%<(18,trunc) %ci %<(5,trunc)%ae %C(white bold)%s%C(reset)"
+
+
+
+
+
+

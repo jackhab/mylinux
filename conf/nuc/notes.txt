@@ -4,10 +4,46 @@ UBUNTU 18 KODI INSTALLATION
 sudo add-apt-repository ppa:team-xbmc/ppa
 sudo apt remove --autoremove kodi kodi-data kodi-bin
 sudo apt update
-sudo apt install kodi
+sudo apt install kodi ir-keytable
+
+
+-----------------------------------------------------------
+RECORD KEY CODES AND MAP TO KEY NAMES
+-----------------------------------------------------------
+Run to show IR key codes:
+    systemctl stop eventlircd.service
+    systemctl stop xbmc.service
+    ir-keytable -c -p  NEC,RC-5,RC-6,JVC,SONY,SANYO,LIRC,RC-5-SZ,SHARP,XMP,other
+    ir-keytable
+    ir-keytable -c
+    ir-keytable -t
+
+Save codes to key map
+echo '
+# table jeniaremote, type: SONY
+0x9f4a KEY_UP
+0x9f4d KEY_DOWN
+0x9f05 KEY_RIGHT
+0x9f0c KEY_LEFT
+0x9f06 KEY_ENTER
+0x1a4932 KEY_PLAY
+0x9f4c KEY_PAUSE
+0x1a4938  KEY_STOP
+0x9f0a KEY_ESC
+0x1a3931 KEY_UP
+0x1a3930 KEY_DOWN
+' > /etc/rc_keymaps/sonyremote
+
+echo 'ir-keytable -c -p NEC,RC-5,RC-6,JVC,SONY,LIRC,OTHER -w /etc/rc_keymaps/sonyremote' >> ~/.config/autostart.sh
+
+Test remote
+    ir-keytable -t
+
+
+
 
 -------------------------------------------------
-UBUNTU 18 LIRC INFRARED DRIVER INSTALLATION
+UBUNTU 18 LIRC INFRARED DRIVER INSTALLATION (NEEDED?)
 -------------------------------------------------
 sudo apt purge ir-keytable lirc
 sudo vim /etc/apt/sources.list
@@ -27,60 +63,6 @@ Test buttons reconized
     lircd --nodaemon --device /dev/lirc0 --driver default
     In another console
     ircat irexec
-
-
-
------------------------------------------------------------
-RECORD KEY CODES
------------------------------------------------------------
-Run to show IR key codes:
-systemctl stop eventlircd.service
-systemctl stop xbmc.service
-ir-keytable -c -p  NEC,RC-5,RC-6,JVC,SONY,SANYO,LIRC,RC-5-SZ,SHARP,XMP,other
-ir-keytable
-ir-keytable -c
-ir-keytable -t
-
-Save codes to .config/rc_keymaps/sonyremote file:
-# table jeniaremote, type: SONY
-0x9f4e KEY_UP
-0x9f4d KEY_DOWN
-0x9f0c KEY_RIGHT
-0x9f05 KEY_LEFT
-0x9f06 KEY_ENTER
-0x1a9a1a KEY_PLAY
-0x9f4c KEY_PAUSE
-0x1a9a18  KEY_STOP
-
-To test:
-ir-keytable -c -p NEC,RC-5,RC-6,JVC,SONY,LIRC,OTHER -w /etc/rc_keymaps/sonyremote
-
-Add the above line to .config/autostart.sh
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -124,13 +106,6 @@ irw
 SHOW KEYS RECOGNIZED FROM LIRCRC
 -------------------------------------------------
 ircat irexec
-
-
-
-
-
-
-
 KEY_0
 KEY_102ND
 KEY_10CHANNELSDOWN

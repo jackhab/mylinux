@@ -58,6 +58,7 @@ git config --global mergetool.meld.cmd 'meld $LOCAL $MERGED $REMOTE --output "$M
 git config --global difftool.meld.path 'c:\Program Files (x86)\Meld\Meld.exe'
 git config --global mergetool.meld.path 'c:\Program Files (x86)\Meld\Meld.exe'
 
+
 --------------------------------------------------
 REPO
 --------------------------------------------------

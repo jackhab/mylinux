@@ -36,7 +36,7 @@ git config --global credential.helper cache         #remember repo password for 
 git config --global format.pretty '%C(auto)%h%d%<(18,trunc) %ci %<(5,trunc)%ae %C(white bold)%s%C(reset)'
 
 git config --global alias.loga "log --graph --all"
-git config --global alias.dt   "difftool"
+git config --global alias.dt "difftool"
 
 #tortoise difftool
 git config --global --add difftool.prompt false

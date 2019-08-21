@@ -93,6 +93,10 @@ remove obsolete branches not present in remote
 
 merge changes from remote repo without creating merge commit
     git pull --rebase
+    
+keep repo outside working directory
+    echo 'gitdir: /path/to/repo.git' > .git
+
 
 --------------------------------------------------
 DIFF

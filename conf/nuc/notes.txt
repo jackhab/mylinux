@@ -7,41 +7,6 @@ sudo apt update
 sudo apt install kodi ir-keytable
 
 
------------------------------------------------------------
-RECORD KEY CODES AND MAP TO KEY NAMES
------------------------------------------------------------
-Run to show IR key codes:
-    systemctl stop eventlircd.service
-    systemctl stop xbmc.service
-    ir-keytable -c -p  NEC,RC-5,RC-6,JVC,SONY,SANYO,LIRC,RC-5-SZ,SHARP,XMP,other
-    ir-keytable
-    ir-keytable -c
-    ir-keytable -t
-
-Save codes to key map
-echo '
-# table jeniaremote, type: SONY
-0x9f4a KEY_UP
-0x9f4d KEY_DOWN
-0x9f05 KEY_RIGHT
-0x9f0c KEY_LEFT
-0x9f06 KEY_ENTER
-0x1a4932 KEY_PLAY
-0x9f4c KEY_PAUSE
-0x1a4938  KEY_STOP
-0x9f0a KEY_ESC
-0x1a3931 KEY_UP
-0x1a3930 KEY_DOWN
-' > /etc/rc_keymaps/sonyremote
-
-echo 'ir-keytable -c -p NEC,RC-5,RC-6,JVC,SONY,LIRC,OTHER -w /etc/rc_keymaps/sonyremote' >> ~/.config/autostart.sh
-
-Test remote
-    ir-keytable -t
-
-
-
-
 -------------------------------------------------
 UBUNTU 18 LIRC INFRARED DRIVER INSTALLATION (NEEDED?)
 -------------------------------------------------
@@ -64,6 +29,55 @@ Test buttons reconized
     In another console
     ircat irexec
 
+
+-----------------------------------------------------------
+RECORD KEY CODES
+-----------------------------------------------------------
+Run to show IR key codes:
+systemctl stop eventlircd.service
+systemctl stop xbmc.service
+ir-keytable -c -p  NEC,RC-5,RC-6,JVC,SONY,SANYO,LIRC,RC-5-SZ,SHARP,XMP,other
+ir-keytable
+ir-keytable -c
+ir-keytable -t
+
+Save codes to .config/rc_keymaps/sonyremote file:
+# table jeniaremote, type: SONY
+0x9f4e KEY_UP
+0x9f4d KEY_DOWN
+0x9f0c KEY_RIGHT
+0x9f05 KEY_LEFT
+0x9f06 KEY_ENTER
+0x1a9a1a KEY_PLAY
+0x9f4c KEY_PAUSE
+0x1a9a18  KEY_STOP
+
+To test:
+sudo ir-keytable -c -p NEC,RC-5,RC-6,JVC,SONY,LIRC,OTHER -w /etc/rc_keymaps/sonyremote
+
+
+-----------------------------------------------------------
+FINAL INSTALLATION
+-----------------------------------------------------------
+Create startup file
+    echo 'sudo ir-keytable -c -p NEC,RC-5,RC-6,JVC,SONY,LIRC,OTHER -w /etc/rc_keymaps/sonyremote' > my/conf/nuc/autostart.sh
+
+Add user to sudoers
+    jenia ALL = NOPASSWD: ALL
+
+Add autostart.sh to Settings > Session and Startup > Application Autostart because
+it must run in graphical session, not terminal.
+
+
+
+
+-------------------------------------------------
+-------------------------------------------------
+-------------------------------------------------
+OLD
+-------------------------------------------------
+-------------------------------------------------
+-------------------------------------------------
 
 
 -------------------------------------------------

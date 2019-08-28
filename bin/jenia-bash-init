@@ -24,15 +24,11 @@ alias ssh='ssh -X'
 alias o='xdg-open'
 
 
-#git
-alias gtg='git log --all --graph --decorate --oneline --color=always | head -n $(( $(tput lines) - 5 ))'
-alias gts='git status'
-alias gtd='git diff'
-
-
 #fixes "Couldn't connect to accessibility bus" warning when using SSH
 export NO_AT_BRIDGE=1
 
+#use vim
+export EDITOR=vim
 
 #show file full path
 full() {

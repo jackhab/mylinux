@@ -25,6 +25,8 @@ git config --global user.email "jackhab@gmail.com"
 git config --global core.editor vim
 git config --global core.pager "cat"
 
+git config --global core.autocrlf true  
+
 git config --global push.default upstream           #push to remote branch this local branch was created from
 git config --global branch.autosetuprebase always   #always rebase when pulling to prevent merge commits created after pulling remote branch
 git config branch.master.rebase true                #rebase while pulling master branch (if it was created before global options was set)

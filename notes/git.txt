@@ -25,6 +25,8 @@ git config --global user.email "jackhab@gmail.com"
 git config --global core.editor vim
 git config --global core.pager "cat"
 
+git config --global core.autocrlf true  
+
 git config --global push.default upstream           #push to remote branch this local branch was created from
 git config --global branch.autosetuprebase always   #always rebase when pulling to prevent merge commits created after pulling remote branch
 git config branch.master.rebase true                #rebase while pulling master branch (if it was created before global options was set)
@@ -33,9 +35,12 @@ git config --global push.followTags true            #always push tags to remote
 
 git config --global credential.helper cache         #remember repo password for 15 minutes
 
-git config --global format.pretty '%C(auto)%h%d%<(18,trunc) %ci %<(5,trunc)%ae %C(white bold)%s%C(reset)'
+git config --global status.submoduleSummary true    #include submodules in status
+git config --global diff.submodule log              #better submodule status with diff
 
-git config --global alias.loga "log --graph --all"
+git config --global format.pretty '%C(auto)%h%<(18,trunc) %ci %<(5,trunc)%ae %C(white bold)%s %C(auto)%d%C(reset)'
+
+git config --global alias.loga "log --graph --all --date-order"
 git config --global alias.dt "difftool"
 
 #tortoise difftool
@@ -97,6 +102,16 @@ merge changes from remote repo without creating merge commit
     
 keep repo outside working directory
     echo 'gitdir: /path/to/repo.git' > .git
+
+
+--------------------------------------------------
+SUBMODULES
+--------------------------------------------------
+Clone repo with submodule
+    git clone --recursive
+
+Init repo with submodules and fetch them
+    git submodule update --init
 
 
 --------------------------------------------------
@@ -177,9 +192,6 @@ git reset
 READ	
 https://www.atlassian.com/git/tutorials/undoing-changes/git-reset	
 AND COMPLETE THE DIAGRAM	
-
-revert staged changes in working dir
-    git reset --
 
 unstage staged changes in working dir
     git reset --

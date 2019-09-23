@@ -21,3 +21,21 @@ commands
     info stack
     cont
 end
+
+--------------------------------------------------
+LIST SOURCES AT CURRENT LOCATION
+--------------------------------------------------
+Show more lines
+    set listsize 30
+
+Show current line (address in PC register)
+    l *$pc
+    
+Alias to above
+define ll
+    bt
+    echo ==============\n
+    info locals
+    echo ==============\n
+    l *$pc
+end

@@ -3,16 +3,22 @@ GENERAL
 --------------------------------------------------
 specifying revisions and ranges for Git
     man gitrevisions
+    
 git command line interface and conventions
     man gitcli
-general command format
-        gitcmd REVISIONS PATHS
-    if REVISIONS and PATHS can be confused use --
-    show diff for file names HEAD
-        git diff -- HEAD
-    show diff for revision HEAD and working tree
-        git diff HEAD --
     
+general command format
+    gitcmd REVISIONS PATHS
+    
+if REVISIONS and PATHS can be confused use --
+show diff for file name HEAD:
+    git diff -- HEAD
+    
+show diff for revision HEAD and working tree
+    git diff HEAD --
+
+add git completion in non-git Windows shell
+    echo ". '/cygdrive/c/Program Files/Git/mingw64/share/git/completion/git-completion.bash'" >> ~/.bashrc    
     
 --------------------------------------------------
 CONFIGURATION
@@ -43,6 +49,13 @@ git config --global format.pretty '%C(auto)%h%<(18,trunc) %ci %<(5,trunc)%ae %C(
 git config --global alias.loga "log --graph --all --date-order"
 git config --global alias.dt "difftool"
 
+#find pattern in repo
+git config --global alias.gg '!f() { git grep --break -p -P -B1 -A2 --heading $1 $(git rev-list --all) $2; }; f'
+
+#find pattern in repo, whole words, not binaries
+git config --global alias.gg '!f() { git grep --break -p -P -I -w -B1 -A2 --heading $1 $(git rev-list --all) $2; }; f'
+
+
 #tortoise difftool
 git config --global --add difftool.prompt false
 git config --global diff.tool TortoiseGitMerge
@@ -62,6 +75,7 @@ git config --global mergetool.meld.cmd 'meld $LOCAL $MERGED $REMOTE --output "$M
 #meld difftool on Windows
 git config --global difftool.meld.path 'c:\Program Files (x86)\Meld\Meld.exe'
 git config --global mergetool.meld.path 'c:\Program Files (x86)\Meld\Meld.exe'
+
 
 
 --------------------------------------------------
@@ -105,6 +119,13 @@ keep repo outside working directory
 
 
 --------------------------------------------------
+SEARCH
+--------------------------------------------------
+search for REGEX in *.c in whole repo
+    git grep REGEX $(git rev-list --all) *.c
+
+
+--------------------------------------------------
 SUBMODULES
 --------------------------------------------------
 Clone repo with submodule
@@ -112,6 +133,9 @@ Clone repo with submodule
 
 Init repo with submodules and fetch them
     git submodule update --init
+    
+Update existing submodules
+    git submodule update --recursive --remote
 
 
 --------------------------------------------------
@@ -186,7 +210,7 @@ git reset
 	leaves some commits dangling
 	modifies index and commit history based on soft/mixed/hard options
 	--hard: brings commit hitory, index and wc to a commit, undone changes are LOST
-	--mixed: default, brings commit hitory and index to a commit, undone changed are moved to working copy
+	--mixed: default, brings commit history and index to a commit, undone changed are moved to working copy
 	--soft: 
 
 READ	
@@ -212,9 +236,6 @@ revert last commit, keep changes unstaged
     git reset HEAD^
 
 revert unstaged changes in working dir
-    git checkout -- .
-
-discard unstaged changes in working dir
     git checkout -- .
 
 discard unstaged changes in file
@@ -278,6 +299,9 @@ push local branch to origin (-u sets default branch for push)
 connect local branch to origin to make it tracking
     git branch -u origin/BRANCH
 
+list branches with tracking
+    git branch -vv
+    
 checkout and track a branch from origin
     git checkout [-b MYBRANCH] -t origin/BRANCH
 

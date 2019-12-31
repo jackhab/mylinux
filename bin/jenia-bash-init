@@ -180,15 +180,13 @@ SshIp=${SshCon[2]}${SshCon[2]:+ }
 [[ -n $SSH_CONNECTION ]] && Color=34 || Color=36
 
 #mark MC prompt (useful in Ctrl-P mode)
-[[ -n $MC_SID ]] && Mc='[mc] ' || Mc=''
+[[ -n $MC_SID ]] && ShellType='[mc] '
 
 #if git is installed show git status in prompt
-#CentOS: if . /usr/share/git-core/contrib/completion/git-prompt.sh 2>/dev/null ; then
-
-#bash on Windows (handle both mingw and cygwin)
+#CentOS: /usr/share/git-core/contrib/completion/git-prompt.sh
 [[ $BashType == cygwin ]] && . '/cygdrive/c/Program Files/Git/mingw64/share/git/completion/git-prompt.sh'
 [[ $BashType == mingw ]]  && . '/c/Program Files/Git/mingw64/share/git/completion/git-prompt.sh'
-
+[[ $BashType == linux ]]  && . /etc/bash_completion.d/git-prompt
 
 if __git_ps1 >/dev/null 2>&1 ; then
     #show unstaged (*) and staged (+) changes
@@ -201,9 +199,10 @@ if __git_ps1 >/dev/null 2>&1 ; then
     export GIT_PS1_SHOWUPSTREAM="verbose"
 
     #prompt with pwd, host SSH IP, git status, user name, hostname
-    PS1='\n\[\e[1;${Color}m\]$Mc$SshIp$PWD`__git_ps1`\n\[\e[00m\]\u@\h$ '
+    PS1='\n\[\e[1;${Color}m\]$ShellType$SshIp$PWD`__git_ps1`\n\[\e[00m\]\u@\h$ '
 else
-    PS1='\n\[\033[01;${Color}m\]$Mc$SshIp$PWD\n\u@\h$\[\033[00m\] '
+	echo no git
+    PS1='\n\[\033[01;${Color}m\]$ShellType$SshIp$PWD\n\u@\h$\[\033[00m\] '
 fi
 
 

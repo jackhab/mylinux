@@ -1,5 +1,14 @@
 #!/bin/bash
 
+
+case "$(uname -s)" in
+    Linux*)     BashType=linux;;
+    CYGWIN*)    BashType=cygwin;;
+    MINGW*)     BashType=mingw;;
+    *)          BashType=unknown
+esac
+
+
 export PATH=${PATH}:~/my/bin
 
 
@@ -168,7 +177,7 @@ SshCon=($SSH_CONNECTION)
 SshIp=${SshCon[2]}${SshCon[2]:+ }
 
 #show prompt in different color when connected to remote SSH host
-[[ -n $SSH_CONNECTION ]] && Color=34 || Color=35
+[[ -n $SSH_CONNECTION ]] && Color=34 || Color=36
 
 #mark MC prompt (useful in Ctrl-P mode)
 [[ -n $MC_SID ]] && Mc='[mc] ' || Mc=''
@@ -176,7 +185,12 @@ SshIp=${SshCon[2]}${SshCon[2]:+ }
 #if git is installed show git status in prompt
 #CentOS: if . /usr/share/git-core/contrib/completion/git-prompt.sh 2>/dev/null ; then
 
-if __git_ps1 2>&1 >/dev/null ; then
+#bash on Windows (handle both mingw and cygwin)
+[[ $BashType == cygwin ]] && . '/cygdrive/c/Program Files/Git/mingw64/share/git/completion/git-prompt.sh'
+[[ $BashType == mingw ]]  && . '/c/Program Files/Git/mingw64/share/git/completion/git-prompt.sh'
+
+
+if __git_ps1 >/dev/null 2>&1 ; then
     #show unstaged (*) and staged (+) changes
     export GIT_PS1_SHOWDIRTYSTATE="+"
     #show stashed ($) changes
@@ -187,9 +201,9 @@ if __git_ps1 2>&1 >/dev/null ; then
     export GIT_PS1_SHOWUPSTREAM="verbose"
 
     #prompt with pwd, host SSH IP, git status, user name, hostname
-    PS1='\n\[\033[01;${Color}m\]$Mc$SshIp$(pwd)$(__git_ps1)\n\u@\h$\[\033[00m\] '
+    PS1='\n\[\e[1;${Color}m\]$Mc$SshIp$PWD`__git_ps1`\n\[\e[00m\]\u@\h$ '
 else
-    PS1='\n\[\033[01;${Color}m\]$Mc$SshIp$(pwd)\n\u@\h$\[\033[00m\] '
+    PS1='\n\[\033[01;${Color}m\]$Mc$SshIp$PWD\n\u@\h$\[\033[00m\] '
 fi
 
 

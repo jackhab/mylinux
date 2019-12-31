@@ -171,6 +171,17 @@ mount-ssh() {
 #prompt decoration
 #
 
+function_exists() {
+    declare -f -F $1 > /dev/null
+    return $?
+}
+
+file_in_path() {
+    which $1 > /dev/null 2>&1
+    return
+}
+
+
 #SshCon array = (CLIENT_IP, CLIENT_PORT, SERVER_IP, SERVER_PORT)
 SshCon=($SSH_CONNECTION)
 #take SERVER_IP and add a colon if it's present
@@ -179,32 +190,38 @@ SshIp=${SshCon[2]}${SshCon[2]:+ }
 #show prompt in different color when connected to remote SSH host
 [[ -n $SSH_CONNECTION ]] && Color=34 || Color=36
 
-#mark MC prompt (useful in Ctrl-P mode)
-[[ -n $MC_SID ]] && ShellType='[mc] '
+#show shell type
+ShellType=
+[[ -n $MC_SID ]] && ShellType="[mc]"
+file_in_path nios2-elf-gcc && ShellType="$ShellType[nios]"
+[[ -n $DS5_HOME ]] && ShellType="$ShellType[arm]"
 
 #if git is installed show git status in prompt
 #CentOS: /usr/share/git-core/contrib/completion/git-prompt.sh
 [[ $BashType == cygwin ]] && . '/cygdrive/c/Program Files/Git/mingw64/share/git/completion/git-prompt.sh'
+[[ $BashType == cygwin ]] && . '/cygdrive/c/Program Files/Git/mingw64/share/git/completion/git-completion.bash'
 [[ $BashType == mingw ]]  && . '/c/Program Files/Git/mingw64/share/git/completion/git-prompt.sh'
 [[ $BashType == linux ]]  && . /etc/bash_completion.d/git-prompt
 
-if __git_ps1 >/dev/null 2>&1 ; then
+if function_exists __git_ps1 ; then
     #show unstaged (*) and staged (+) changes
     export GIT_PS1_SHOWDIRTYSTATE="+"
-    #show stashed ($) changes
-    export GIT_PS1_SHOWSTASHSTATE="+"
-    #show untracked (%) changes
-    export GIT_PS1_SHOWUNTRACKEDFILES="+"
-    #show branch status relative to its upstream
-    export GIT_PS1_SHOWUPSTREAM="verbose"
-
-    #prompt with pwd, host SSH IP, git status, user name, hostname
-    PS1='\n\[\e[1;${Color}m\]$ShellType$SshIp$PWD`__git_ps1`\n\[\e[00m\]\u@\h$ '
+    
+    #some options work very slow in Windows
+    if [[ $BashType == linux ]] ; then
+        #show stashed ($) changes
+        export GIT_PS1_SHOWSTASHSTATE="+"
+        #show untracked (%) changes
+        export GIT_PS1_SHOWUNTRACKEDFILES="+"
+        #show branch status relative to its upstream
+        export GIT_PS1_SHOWUPSTREAM="verbose"
+    fi
 else
-	echo no git
-    PS1='\n\[\033[01;${Color}m\]$ShellType$SshIp$PWD\n\u@\h$\[\033[00m\] '
+    __git_ps1() { :; }
 fi
 
+#prompt with pwd, host SSH IP, git status, user name, hostname
+PS1='\n\[\e[1;${Color}m\]$SshIp$PWD`__git_ps1` $ShellType\n\[\e[00m\]\u@\h$ '
 
 #run ls if directory changed
 PrevDir=$(tty) 

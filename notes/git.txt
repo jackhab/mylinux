@@ -36,10 +36,12 @@ git config --global core.autocrlf true
 git config --global push.default upstream           #push to remote branch this local branch was created from
 git config --global branch.autosetuprebase always   #always rebase when pulling to prevent merge commits created after pulling remote branch
 git config branch.master.rebase true                #rebase while pulling master branch (if it was created before global options was set)
+git config --global merge.ff false                  #even create extra merge commit when fast forward merge would be possible
+git config --global pull.ff only                    #disallows non ff merges on pull, overrides merge.ff when pulling
 
 git config --global push.followTags true            #always push tags to remote 
 
-git config --global credential.helper cache         #remember repo password for 15 minutes
+git config --global credential.helper cache         #remember repo password for 15 minutes (store=forever)
 
 git config --global status.submoduleSummary true    #include submodules in status
 git config --global diff.submodule log              #better submodule status with diff
@@ -54,7 +56,6 @@ git config --global alias.gg '!f() { git grep --break -p -P -B1 -A2 --heading $1
 
 #find pattern in repo, whole words, not binaries
 git config --global alias.gg '!f() { git grep --break -p -P -I -w -B1 -A2 --heading $1 $(git rev-list --all) $2; }; f'
-
 
 #tortoise difftool
 git config --global --add difftool.prompt false
@@ -76,6 +77,12 @@ git config --global mergetool.meld.cmd 'meld $LOCAL $MERGED $REMOTE --output "$M
 git config --global difftool.meld.path 'c:\Program Files (x86)\Meld\Meld.exe'
 git config --global mergetool.meld.path 'c:\Program Files (x86)\Meld\Meld.exe'
 
+#Beyond Compare difftool
+git config --global diff.tool bc                                                    
+git config --global difftool.bc.path "c:/Program Files/Beyond Compare 4/bcomp.exe"   
+git config --global merge.tool bc                                                    
+git config --global mergetool.bc.path "c:/Program Files/Beyond Compare 4/bcomp.exe"  
+                                                                                     
 
 
 --------------------------------------------------
@@ -121,23 +128,61 @@ keep repo outside working directory
 --------------------------------------------------
 SEARCH
 --------------------------------------------------
-search for REGEX in *.c in whole repo
-    git grep REGEX $(git rev-list --all) *.c
+Find commits with STRING or REGEXP in current branch
+    git log -S STRING [FILE_NAME]
+    git log -G STRING [FILE_NAME]
 
+Find commits with STRING in any branch
+    git log -S STRING --source --all [FILE_NAME]
+    
+Find commits with STRING and show patch
+    git log -S STRING [FILE_NAME] -p
+    
+
+--------------------------------------------------
+SUBTREES
+--------------------------------------------------
+Add a remote for subtree (optional)
+    git remote add -f pluingremote https://bitbucket.org/plugin
+
+Add new plugin subtree (squash is optional but it makes possible going back in history of plugin)
+    git subtree add --squash --prefix plugin  https://pluingremote/plugin.git master -m 'Added plugin'
+
+Update plugin version
+    git subtree merge --prefix plugin --squash 99ff76c
+    
+Push to original plugin repo
+    git subtree push --prefix=plugin pluingremote master    
+
+Pull subrtree to update to latest version
+    git subtree pull --squash -prefix=plugin pluingremote master
+    
 
 --------------------------------------------------
 SUBMODULES
 --------------------------------------------------
 Clone repo with submodule
-    git clone --recursive
+    git clone --recurse-submodules
 
 Init repo with submodules and fetch them
     git submodule update --init
     
+Show submodules and their commit hash
+    git submodule
+    
 Update existing submodules
     git submodule update --recursive --remote
 
+Pull main repo and all its submodules
+    git pull --recurse-submodules
 
+Pull only submodules
+    git submodule update --remot
+
+Switch submodule from master to other branch
+    git submodule set-branch --branch BRANCH SUBMODULE
+ 
+ 
 --------------------------------------------------
 DIFF
 --------------------------------------------------
@@ -153,7 +198,11 @@ show changes in line, whole functions, no whitespace changes
 show changes of commit with its parent
     git diff COMMIT^!
 
-
+compare branch with remote (fetch first!)    
+    git diff master origin/master
+    git diff '@{u}'
+    
+    
 --------------------------------------------------
 COMMIT
 --------------------------------------------------
@@ -183,20 +232,20 @@ change file case
 --------------------------------------------------
 REVERT / REMOVE
 --------------------------------------------------
-
-   |stash--------stash------------->|
+   
+   |stash--------stash------------->|            |
    |               |                |push------->|
    |               |commit--------->|            |
    |add----------->|                |            |
 WORKSPACE        INDEX             REPO        ORIGIN
+   |<--------------+----------------+-------clone|
    |<--------------+----------------+--------pull|
    |               |                |<------fetch|
-   |<--------------+-----------merge|
+   |<>-------------+-----------merge|            |
    |<--------------+---checkout HEAD|            |
    |<------checkout|                |            |
    |---------------+-------diff HEAD|            |
    |-----------diff|                |            |
-   |<--------------+------------------------clone|
 
 git checkout
 	moves HEAD to a commit
@@ -211,7 +260,7 @@ git reset
 	modifies index and commit history based on soft/mixed/hard options
 	--hard: brings commit hitory, index and wc to a commit, undone changes are LOST
 	--mixed: default, brings commit history and index to a commit, undone changed are moved to working copy
-	--soft: 
+	--soft: move ref, keep index and working copy, undone changes are staged (can be used to rollback and squash last commits)
 
 READ	
 https://www.atlassian.com/git/tutorials/undoing-changes/git-reset	
@@ -265,7 +314,7 @@ untrack file without deleting from working copy
 BRANCH
 --------------------------------------------------
 list all branches verbosely
-    git branch -a -v
+    git branch -av
 
 list obsolete merged branches
     git branch --merged
@@ -317,6 +366,11 @@ delete local branch
 delete remote branch
     git push origin --delete BRANCH
 
+delete and stop tracking branch during fetch/merge
+    git branch -d -r origin/BRANCH
+    git config --unset branch.BRANCH.remote
+    git config --unset branch.BRANCH.merge
+
 make bar to point to newbar (e.g. before removing newbar)
     git checkout bar
     git reset --hard newbar 
@@ -352,6 +406,7 @@ log changes containing 'return'
 log with file names
     git log --name-status 
     
+    
 --------------------------------------------------
 STASH
 --------------------------------------------------
@@ -369,7 +424,6 @@ restore files without re-staging them
 
 restore files with staging state
     git stash apply --index
-
     
     
 --------------------------------------------------
@@ -388,40 +442,5 @@ xxx                         xxx - both files and dirs
 dir/ !dir/important.x       BROKEN! Cannot un-ignore file if whole directory ignored
 dir/**/f.x                  dir/f.x dir/1/f.x
 dir/*day/f.x                dir/monday/f.x dir/tuesday/f.x
-
-
-
-
-
-
-
     
-
---------------------------------------------------
-BACKUP BRANCH TO REMOTE REPO
---------------------------------------------------
-git init --bare    
-git remote add jenialx ssh://jenia@110.1.0.12/home/jenia/trnc/.git
-git fetch jenialx
-
-
-MessLen=$(($Cols-20))
-    LDate="%<(18,trunc)%ci"
-    LName="%<(18,trunc)%ci"
-    LHash="%C(auto)%h"
-    #LMess="%<($(($Cols-12)),trunc)%C(white bold)%s%C(reset)"
-    #LMess="%<($MessLen,trunc)%C(white bold)%s%C(reset)"
-    LMess="%C(white bold)%s%C(reset)"
-    LRefs="%C(auto)%d"
-    LWrap1="%w($(($Cols-3)),1,20)"
-    CmdLog=
-    git log --all --graph --decorate=short --color --format=format:"%h %d %<(18,trunc) %ci %<(5,trunc)%ae %s"
-
-     
-git log --all --graph --decorate=short --color --format=format:"%C(auto)%h%d%<(18,trunc) %ci %<(5,trunc)%ae %C(white bold)%s%C(reset)"
-
-
-
-
-
 

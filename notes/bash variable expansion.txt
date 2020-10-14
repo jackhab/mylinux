@@ -53,9 +53,9 @@ declare -a ARRAY      Declares an indexed array ARRAY. An existing array is not 
 declare -A ARRAY      Declares an associative array ARRAY. Mandatory for associative arrays.
 
 ARRAY[N]=VAL          Sets the element N of the indexed array ARRAY to VAL. N can be any valid arithmetic expression.
-ARRAY[STR]=VAL	      Sets the element indexed by STR of the associative array ARRAY.
+ARRAY[STR]=VAL        Sets the element indexed by STR of the associative array ARRAY.
 ARRAY=VAL             If no index is given, the zeroth element is set to VAL.
-ARRAY=(E1 E2 ...)	  Sets the whole array ARRAY to the given list of elements; not for associative arrays.
+ARRAY=(E1 E2 ...)     Sets the whole array ARRAY to the given list of elements; not for associative arrays.
 ARRAY=([X]=E1 [Y]=E2) Indexed array assignment.
 ARRAY+=(E1 E2 ...)    Append to ARRAY.
 

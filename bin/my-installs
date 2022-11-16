@@ -17,4 +17,4 @@ fi
 
 
 apt-get install -y build-essential terminator mc meld vim git wireshark tree sshfs htop gnome-disk-utility \
-       ethtool gparted tmux openssh-server gdb net-tools
+       ethtool gparted tmux openssh-server gdb net-tools bridge-utils

@@ -1,18 +1,22 @@
-PROBLEM:
-glib.GError: Failed to contact configuration server; some possible causes are
-that you need to enable TCP/IP networking for ORBit, or you have stale NFS
+-------------------------------------------------
+MobaXterm X11: Proxy authorisation not recognised
+-------------------------------------------------
+sudo xauth add `xauth list | tail -n1`
+
+
+-------------------------------------------------
+glib.GError: Failed to contact configuration server
+-------------------------------------------------
+some possible causes arethat you need to enable TCP/IP networking for ORBit, or you have stale NFS
 locks due to a system crash. See http://projects.gnome.org/gconf/ for information.
 (Details -  1: Failed to get connection to session: Failed to connect to socket /tmp/dbus-JFT40truux: Connection refused)
-
 FIX:
-eval `dbus-launch --sh-syntax`
+    eval `dbus-launch --sh-syntax`
 
 
-
-PROBLEM:
+-------------------------------------------------
 Meld stopped working
-
-FIX:
+-------------------------------------------------
 service messagebus stop
 rm -f /var/run/dbus/system_bus_socket /var/lib/dbus/machine-id
 service messagebus start

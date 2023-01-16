@@ -1,0 +1,117 @@
+-------------------------------------------------
+START
+-------------------------------------------------
+sudo apt-get -y install build-essential cmake ncurses-base ncurses-bin libncurses5-dev dialog graphviz 
+Generate .config
+    make menuconfig
+        Use / to search options
+
+Build
+    make
+
+Output is in output/
+    images/ kernel, bootloader, FS images
+    build/  build area for all components
+    host/   toolchain, root FS hierarchy
+    staging/ symlink to host/target
+    target root FS sans /dev/
+
+Debug make
+    make V=1 <target>
+
+Show supported boards
+    make list-defconfigs    
+
+Clear configuration
+    make distclean
+
+Print variables
+    make -s printvars (see manual)
+
+-------------------------------------------------
+CROSS-COMPILER
+-------------------------------------------------
+Kernel headers must be same or older than target's kernel
+Even PC target requires buildroot's toolchain
+
+Location
+     output/host/bin/ 
+     Use by adding directory to PATH
+
+External/internal
+     Toolchain > Toolchain Type
+
+    Internal
+        Built from sources
+        Allows kernel, uClibc customization
+        See "Build an external toolchain with Buildroot" on how to build toolchain for re-use
+
+    External options
+        Download and install known toolchain
+        Predefined existing selected by path
+        Fully custom via path, prefix, C library selection
+
+Buildroot does not know when rebuild needed! See "Understanding when a full rebuild is necessary"
+Fully rebuild (make clean all) when:
+    target architecture, toolchain, new library package, package removed,
+    package sub-option used in other package, FS skeleton non handled in post-pre-build scripts,
+    any build error
+
+Rebuild a package
+    remove <package>/output/build
+
+Resume package build
+    make <package>-rebuild
+    
+Rebuild FS 
+    make all
+
+Download all sources
+    make source
+
+Change output directory
+    make O=/path/to/directory 
+
+make list-defconfigs
+
+-------------------------------------------------
+OVERLAY
+-------------------------------------------------
+External (out of buildroot tree) overlay location
+    BR2_EXTERNAL=/path/to/overlay
+    saved in .br2-external.mk
+
+Mandatory files
+    external.desc
+    external.mk included in all make files
+    Config.in included in configuration menu
+
+
+-------------------------------------------------
+PACKAGES
+-------------------------------------------------
+Downloaded in dl/ (can be changed via BR2_DL_DIR)
+
+
+-------------------------------------------------
+BAMW
+-------------------------------------------------
+
+check
+    grep ^BR2_ROOTFS_OVERLAY .config
+
+BR2_ROOTFS_OVERLAY contains a space-separated list of overlay paths.
+
+make BR2_EXTERNAL=../bamw-buildroot/ ba_microwaves_imx6sxsabresd_defconfig
+
+sudo apt-get install subversion libapache2-svn -y
+sudo apt-get install patch -y
+sudo apt-get install ncurses-dev -y
+sudo apt-get install u-boot-tools -y
+sudo apt-get install make flex bison m4 ncurses-dev gettext texi2html texinfo zlib1g:i386 zlib1g-dev liblzo2-2 liblzo2-dev libacl1 libacl1-dev libglib2.0-dev autoconf automake libtool -y
+sudo apt-get install g++ -y
+sudo apt-get install libc6-i386 -y
+sudo apt-get install gcc-arm-none-eabi -y
+sudo apt-get install git  -y
+sudo apt-get install cmake  -y
+sudo apt-get install libusb-1.0-0-dev  -y

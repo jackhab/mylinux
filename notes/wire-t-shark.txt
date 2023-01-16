@@ -1,7 +1,12 @@
 --------------------------------------------------
+FILTER OUT WINDOWS JUNK IN WIRESHARK DISPLAY FILTER
+--------------------------------------------------
+! (udp.port == 5355 or udp.dstport == 5353  or udp.dstport == 137 or igmp or ssdp or icmp or arp)
+
+
+--------------------------------------------------
 EXTRACT HTTP response
 --------------------------------------------------
-
 tshark -r dm-full.pcap -Y "tcp contains frag" -T fields -e frame.number -e http.request.uri -e http.cookie
 
 

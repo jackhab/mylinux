@@ -1,3 +1,18 @@
+-------------------------------------------------
+FULL REBUILD
+-------------------------------------------------
+Delete sstate cache folder (determines which recipes need to rebuild)
+    rm -rf sstate-cache/
+
+Delete tmp directory (final images)
+    rm -rf tmp/
+
+Run bitbake
+    bitbake core-image-minimal
+
+
+
+
 #################### NOW ####################
 Working in a new sxbit layer, trying to add
 lecbt-ethernet-config.cfg	OK

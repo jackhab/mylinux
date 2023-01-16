@@ -15,6 +15,10 @@ cd thunar-dropbox-0.2.0 && \
 Go to Settings > Session and Startup and open the Application Autostart.
 Make sure Dropbox is enabled.
 
+--------------------------------------------------
+PID FROM WINDOW
+--------------------------------------------------
+xprop _NET_WM_PID | sed 's/_NET_WM_PID(CARDINAL) = //' | ps `cat`
 
 --------------------------------------------------
 XFCE SET CUSTOM KEYBOARD LAYOUT SHORTCUT

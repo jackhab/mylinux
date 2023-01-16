@@ -16,24 +16,5 @@ then
 fi
 
 
-#plocate is MUCH faster than mlocate
-read -p "Install plocate? " -n 1 -r
-if [[ $REPLY =~ ^[Yy]$ ]]
-then
-	sudo apt install -y libzstd-dev meson
-	wget https://plocate.sesse.net/download/plocate-1.1.17.tar.gz
-	tar xf plocate-1.1.17.tar.gz
-	cd plocate-1.1.17/
-	meson obj
-	cd obj
-	ninja
-	sudo groupadd --system plocate
-	sudo ninja install
-	sudo systemctl enable plocate-updatedb.timer
-	sudo updatedb
-fi
-
-apt-get install -y build-essential terminator mc meld vim git wireshark tree sshfs htop gnome-disk-utility \
-       ethtool gparted tmux openssh-server gdb net-tools bridge-utils
-
-
+apt-get install -y terminator mc curl meld vim git wireshark tree sshfs htop gnome-disk-utility \
+       ethtool gparted tmux openssh-server

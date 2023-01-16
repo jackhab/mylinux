@@ -1,0 +1,290 @@
+--------------------------------------------------
+DHCP CLIENT
+--------------------------------------------------
+sudo dhclient -r eth0
+
+--------------------------------------------------
+RENAME INTERFACE ON UBUNTU
+--------------------------------------------------
+sudo vi etc/netplan/01-network-manager-all.yaml
+    network:
+        version: 2
+        ethernets:
+            eth0:
+                dhcp4: true
+                match:
+                    macaddress: <YOUR MAC ID HERE>
+                set-name: eth0
+
+sudo netplan try
+sudo netplan apply
+
+
+--------------------------------------------------
+REMOVE INTERFACE FROM NETWORK MANAGER SERVICE
+--------------------------------------------------
+sudo vi /etc/NetworkManager/NetworkManager.conf 
+    [main]
+    plugins=keyfile
+    [keyfile]
+    unmanaged-devices=mac:00:11:22:33:44:55;mac:66:77:88:99:00:aa
+
+
+--------------------------------------------------
+DISABLE UNNECESSARY BROADCASTS FOR DEBUG
+--------------------------------------------------
+sudo systemctl stop avahi-daemon.socket avahi-daemon.service       #MDNS
+sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1                    #IPv6 router solicitation
+sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1                #IPv6 router solicitation
+
+
+--------------------------------------------------
+CREATE SEPARATE NETSPACE
+--------------------------------------------------
+#create new space
+ip netns add cods
+
+#create two interfaces to link from space to world
+ip link add veth0 type veth peer name veth1
+
+#put one of the interfaces into space
+ip link set veth1 netns cods
+
+#bring interfaces up
+ip link set veth0 up
+ip netns exec cods ip link set veth1 up
+ 
+#now you can bridge veth0 to whatever physical or virtual interface
+#to connect the new net space to outer world
+
+
+--------------------------------------------------
+ENABLE IPV4 PACKET FORWARDING BETWEEN NICS
+--------------------------------------------------
+in  /etc/sysctl.conf:
+    net.ipv4.ip_forward = 1
+
+then service network restart or
+in /etc/sysconfig/network:
+    FORWARD_IPV4=yes
+
+then service network restart or echo 1 > /proc/sys/net/ipv4/ip_forward (until reboot)
+
+--------------------------------------------------
+IP TABLES
+--------------------------------------------------
+manual
+    http://www.frozentux.net/iptables-tutorial/iptables-tutorial.html
+
+add port forwarding:
+    iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to 8080
+
+remove port forwarding (replace -A with -D):
+iptables -t nat -D PREROUTING -p tcp --dport 80 -j REDIRECT --to 8080
+
+drop packet by content
+    iptables -A PREROUTING -t mangle -i eth0 -m connmark --mark 1 -j ACCEPT
+    iptables -A PREROUTING -t mangle -i eth0 -m string --algo bm --string "6ZAARI19R0" -j CONNMARK --set-xmark 1
+    iptables -A PREROUTING -t mangle -i eth0 -m connmark --mark 1 -j DROP
+
+forward packets from 10.0.0.10 via NAT to eth0
+iptables -t nat -A POSTROUTING -o eth0 -s 10.0.0.10 -j MASQUERADE
+
+ping IPs from 10.10.1.0 to 10.10.1.255
+    nmap -sP 10.10.1.0/24
+
+--------------------------------------------------
+PASSWORDLESS /etc/samba/smb.conf
+--------------------------------------------------
+[global]
+workgroup = WORKGROUP
+server string = NUC File Share
+netbios name = ubuntu
+security = user
+map to guest = bad user
+dns proxy = no
+
+#Share Definitions
+[Data]
+path = /data
+browsable =yes
+writable = yes
+guest ok = yes
+read only = no
+force user = jenia
+
+--------------------------------------------------
+SCAPY
+--------------------------------------------------
+send tcp packet
+    sendp(Ether()/IP(dst="192.168.100.2", src='3.3.3.3',ttl=(64),id=100)/TCP(flags='',sport=80,dport=39406,window=0), iface="eth4")
+
+
+--------------------------------------------------
+NET SSH GUI GNOME LAUNCHER.TXT    
+--------------------------------------------------
+in ~/.local/share/applications/:
+    [Desktop Entry]
+    Name=MR-10 Eclipse
+    GenericName=MR-10 Eclipse
+    X-GNOME-FullName=MR-10 Eclipse
+    Comment=MR-10 Eclipse
+    Exec=ssh -X -f mr-10 eclipse
+    Terminal=false
+    Type=Application
+    Icon=/opt/eclipse/icon.xpm
+    StartupNotify=true
+    Categories=GTK;Development;
+    X-Desktop-File-Install-Version=0.21
+
+
+--------------------------------------------------
+DISABLE HOST VERIFICATION
+--------------------------------------------------
+In /etc/ssh/ssh_config
+Host *
+    StrictHostKeyChecking no
+    UserKnownHostsFile=/dev/null
+
+
+--------------------------------------------------
+REVERSE SSH TUNNELING
+--------------------------------------------------
+Let's assume that Destination's IP is 192.168.20.55 (Linux box that you want to access).
+You want to access from Linux client with IP 138.47.99.99.
+Destination (192.168.20.55) <- |NAT| <- Source (138.47.99.99)
+
+1. SSH from the destination to the source (with public ip) using command below:
+ssh -R 19999:localhost:22 sourceuser@138.47.99.99
+* port 19999 can be any unused port.
+
+2. Now you can SSH from source to destination through SSH tuneling:
+ssh localhost -p 19999
+
+3. 3rd party servers can also access 192.168.20.55 through Destination (138.47.99.99).
+Destination (192.168.20.55) <- |NAT| <- Source (138.47.99.99) <- Bob's server
+
+3.1 From Bob's server:
+ssh sourceuser@138.47.99.99
+
+3.2 After the sucessful login to Source:
+ssh localhost -p 19999
+
+* the connection between destination and source must be alive at all time.
+Tip: you may run a command (e.g. watch, top) on Destination to keep the connection active. 
+
+
+--------------------------------------------------
+REUSE SAME CONNECTION FOR ALL LOGINS
+--------------------------------------------------
+
+Add to ~/.ssh/config:
+ControlMaster auto
+ControlPath /tmp/ssh_mux_%h_%p_%r
+--------------------------------------------------
+SOURCE
+--------------------------------------------------
+http://www.linuxfoundation.org/collaborate/workgroups/networking/netem
+
+
+--------------------------------------------------
+TC TRAFFIC CONTROL
+--------------------------------------------------
+show
+    tc qdisc show 
+
+clear
+    tc qdisc del dev eth0 root
+
+add delay
+    tc qdisc add dev eth0 root netem delay 100ms
+
+add delay with random variation
+    tc qdisc change dev eth0 root netem delay 100ms 10ms
+
+drop 1 out of 1000 packets
+    tc qdisc change dev eth0 root netem loss 0.1%
+
+packet duplication
+    tc qdisc change dev eth0 root netem duplicate 1%
+
+packet corruption
+    tc qdisc change dev eth0 root netem corrupt 0.1%
+
+bandwidth
+    tc qdisc replace dev eth0 root handle 1:0 tbf rate 120000kbit burst 100kbit latency 0.1ms
+
+
+--------------------------------------------------
+IF-CFG BASIC EXAMPLE
+--------------------------------------------------
+DEVICE=eth0
+BOOTPROTO=none
+ONBOOT=yes
+NETMASK=255.255.255.0
+IPADDR=10.0.1.27
+USERCTL=no
+
+
+BOOTPROTO=
+    none  Static IP
+    bootp The BOOTP protocol should be used.
+    dhcp  The DHCP protocol should be used. 
+    
+BROADCAST=address    
+    depricated
+
+DEFROUTE=yes
+    Use this interface to access default gateway
+    
+DHCP_HOSTNAME=hostname
+    Use this option only if the DHCP server requires the client to specify a hostname
+    before receiving an IP address.
+   
+ETHTOOL_OPTS="autoneg off speed 100 duplex full -K eth0 tx off"
+
+GATEWAY=10.0.0.10
+
+HWADDR=AA:BB:CC:DD:EE:FF
+    Existing MAC address
+    This directive should not be used in conjunction with MACADDR.
+
+IPADDR=10.0.0.10
+
+IPV4_FAILURE_FATAL
+    Whether the device is disabled if IPv4 configuration fails.
+
+IPV6_FAILURE_FATAL
+    Whether the device is disabled if IPv6 configuration fails.
+
+IPV6ADDR
+    IPv6 address of the interface in CIDR notation. For example: IPV6ADDR="2001:db8:1e11:115b::1/32"
+
+IPV6INIT
+    Whether to enable IPv6 for the interface.
+
+NETMASK=255.255.255.0
+
+MACADDR=AA:BB:CC:DD:EE:FF
+    Assign this MAC to device.
+    This directive should not be used in conjunction with the HWADDR.
+
+MASTER
+    Specifies the name of the master bonded interface, of which this interface is slave.
+
+LINKDELAY=time
+     number of seconds to wait for link negotiation before configuring the device.
+
+NETWORK=address 
+    depricated
+    
+NM_CONTROLLED=no
+    Whether NetworkManager is permitted to configure this device.
+
+ONBOOT=yes
+    Activate on boot.
+    
+USERCTL=no
+    Whether users other than root can control the state of this interface.
+
+

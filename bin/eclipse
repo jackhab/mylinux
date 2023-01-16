@@ -1,8 +1,5 @@
 #!/bin/bash
 
-/opt/eclipse/eclipse &
-exit 0
-
 Host=$(zenity --title 'Select Eclipse host' \
                 --list --hide-header --column '' --column ''    \
                 --hide-column 1 --print-column 1 \

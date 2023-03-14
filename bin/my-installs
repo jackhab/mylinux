@@ -17,4 +17,4 @@ fi
 
 
 apt-get install -y terminator mc curl meld vim git wireshark tree sshfs htop gnome-disk-utility \
-       ethtool gparted tmux openssh-server net-tools wmctrl
+       ethtool gparted tmux openssh-server net-tools wmctrl xdotool

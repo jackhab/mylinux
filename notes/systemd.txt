@@ -70,6 +70,11 @@ Show logs
 export SYSTEMD_PAGER=''
 journalctl --vacuum-time=1seconds #clear logs
 
+Logs location
+	/run/log/journal/MACHINE-ID/
+	/var/log/journal/MACHINE-ID
+
+
 --------------------------------------------------
 Linux startup scripts creation
 --------------------------------------------------

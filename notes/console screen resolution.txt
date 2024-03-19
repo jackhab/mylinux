@@ -1,3 +1,5 @@
+Add vga=ask to kernel command line to test available modes on boot.
+Add vga mode by first converting it to decimal number.
 In /boot/grub/grub.conf file add 'vga=791' to the kernel line.
 Other resolutions:
 791 - 1024x768, 16 bit

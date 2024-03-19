@@ -1,3 +1,7 @@
+Boot Linux console as root without prompting for user
+	vi /lib/systemd/system/getty@.service
+	Add "-a root" to ExecStart e.g.:
+		ExecStart=-/sbin/agetty -a root --noclear %I $TERM
 
 Startup service files and links to /lib/systemd/system
 	/etc/systemd/system/
@@ -70,6 +74,15 @@ Show logs
 export SYSTEMD_PAGER=''
 journalctl --vacuum-time=1seconds #clear logs
 
+--------------------------------------------------
+CHANGE RUN LEVEL
+--------------------------------------------------
+Start graphical shell from text terminal
+	sudo systemctl isolate graphical
+
+Always boot to  graphical shell
+	sudo systemctl set-default graphical.target
+	
 Logs location
 	/run/log/journal/MACHINE-ID/
 	/var/log/journal/MACHINE-ID

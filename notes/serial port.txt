@@ -1,0 +1,1 @@
+stty -F /dev/ttyUSB5 -echo -onlcr 115200

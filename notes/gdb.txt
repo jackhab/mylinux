@@ -5,8 +5,9 @@ Target
     gdbserver :9999 ./main
 Host
     gdb
-        target remove IP:9999
-        
+        target remote IP:9999
+    OR
+        gdb -ex 'target remote IP:9999' main
 
 --------------------------------------------------
 COREDUMP CONFIGURATION

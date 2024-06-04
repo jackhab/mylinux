@@ -192,23 +192,24 @@ SshIp=${SshCon[2]}${SshCon[2]:+ }
 
 #show shell type
 ShellType=
-[[ -n $MC_SID ]] && ShellType="[mc]"
-file_in_path nios2-elf-gcc && ShellType="$ShellType[nios]"
-[[ -n $DS5_HOME ]] && ShellType="$ShellType[arm]"
+[[ -n $WSL_DISTRO_NAME ]]   && ShellType="[wsl]"
+file_in_path nios2-elf-gcc  && ShellType="${ShellType}[nios]"
+[[ -n $MC_SID ]]            && ShellType="${ShellType}[mc]"
+[[ -n $DS5_HOME ]]          && ShellType="${ShellType}[arm]"
 
 #if git is installed show git status in prompt
 #CentOS: /usr/share/git-core/contrib/completion/git-prompt.sh
-[[ $BashType == cygwin ]] && . '/cygdrive/c/Program Files/Git/mingw64/share/git/completion/git-prompt.sh'
-[[ $BashType == cygwin ]] && . '/cygdrive/c/Program Files/Git/mingw64/share/git/completion/git-completion.bash'
-[[ $BashType == mingw ]]  && . '/c/Program Files/Git/mingw64/share/git/completion/git-prompt.sh'
-[[ $BashType == linux ]]  && . /etc/bash_completion.d/git-prompt
+[[ $BashType == "cygwin" ]] && . '/cygdrive/c/Program Files/Git/mingw64/share/git/completion/git-prompt.sh'
+[[ $BashType == "cygwin" ]] && . '/cygdrive/c/Program Files/Git/mingw64/share/git/completion/git-completion.bash'
+[[ $BashType == "mingw" ]]  && . '/c/Program Files/Git/mingw64/share/git/completion/git-prompt.sh'
+[[ $BashType == "linux" ]]  && . /etc/bash_completion.d/git-prompt
 
-if function_exists __git_ps1 ; then
+#git prompt status works very slow in Windows, even in WSL
+if function_exists __git_ps1 && ! [[ -v WSL_DISTRO_NAME ]] ; then
     #show unstaged (*) and staged (+) changes
     export GIT_PS1_SHOWDIRTYSTATE="+"
-    
-    #some options work very slow in Windows
-    if [[ $BashType == linux ]] ; then
+
+    if [[ $BashType == "linux" ]] ; then
         #show stashed ($) changes
         export GIT_PS1_SHOWSTASHSTATE="+"
         #show untracked (%) changes
@@ -248,7 +249,7 @@ if tty -s ; then
 fi
 
 
-#don't overwrite history: append to it
+#don't overwrite history - append to it
 shopt -s histappend
 
 #remove duplicate commands from history
@@ -269,7 +270,7 @@ log_bash_persistent_history()
         fi
 }
 
-# Stuff to do on PROMPT_COMMAND
+# stuff to do on PROMPT_COMMAND
 run_on_prompt_command()
 {
     log_bash_persistent_history

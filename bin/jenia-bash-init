@@ -1,23 +1,28 @@
 #!/bin/bash
 
+#set -e
+#set -u
+#set -x
+
+BashType="unknown"
 
 case "$(uname -s)" in
-    Linux*)     BashType=linux;;
-    CYGWIN*)    BashType=cygwin;;
-    MINGW*)     BashType=mingw;;
-    *)          BashType=unknown
+    Linux*)     BashType="linux"   ;;
+    CYGWIN*)    BashType="cygwin"  ;;
+    MINGW*)     BashType="mingw"   ;;
+    *)          BashType="unknown" ;; 
 esac
 
 
-export PATH=${PATH}:~/my/bin
+export PATH=${PATH}:~/myconf/bin
 
 
-#decorate ls
+#improve ls
 alias ll='ls -lh  --group-directories-first --time-style="+%y-%m-%d %H:%M:%S"'
 alias la='ll -a'
 
 
-#mandatory switches
+#add defaults to some commands
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'

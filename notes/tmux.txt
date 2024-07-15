@@ -1,0 +1,18 @@
+-------------------------------------------------
+MISC
+-------------------------------------------------
+tmux -u     force show UTF chars (use in case e.g. mc borders are not shown properly)
+
+
+-------------------------------------------------
+SESSIONS
+-------------------------------------------------
+list sessions
+    tmux ls
+
+attach to session 0
+    tmux attach-session -t 0
+
+detach session
+    Ctrl-B D    
+

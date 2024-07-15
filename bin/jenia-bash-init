@@ -32,7 +32,7 @@ alias wireshark='sudo wireshark'
 alias virsh='sudo virsh'
 alias ethtool='sudo ethtool'
 alias ssh='ssh -X'
-
+alias my-mount="mount | sort | column -t | grep -vP '(^none|^cgroup|^tmpfs)'"
 
 #open any file
 alias o='xdg-open'
@@ -169,6 +169,22 @@ mount-ssh() {
     sshfs $1 ~/mnt/$MountDir || return 1
 
     echo $1 mounted on ~/mnt/$MountDir
+}
+
+
+
+#quick mount in current folder
+mount-here() {
+    [[ $1 =~ .+ ]] ||  { echo Usage: mount-here /dev/some/thing ; return 1 ; } 
+
+    NoSlash=${NoCol////-}    #replace / with -
+    MountDir=${NoSlash/%-/}  #remove last -
+    MountDir=${MountDir/%./} #remove last -
+    MountDir=mount${MountDir}
+
+	mkdir -p $MountDir
+    sudo mount $1 $MountDir || return 1
+    echo $1 mounted on $MountDir
 }
 
 

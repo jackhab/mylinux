@@ -1,14 +1,35 @@
 -------------------------------------------------
+LINKS
+-------------------------------------------------
+Layer index
+    https://layers.openembedded.org/layerindex/branch/master/layers/
+
+-------------------------------------------------
 FULL REBUILD
 -------------------------------------------------
+configure build environment
+    source poky/oe-init-build-env ./build
+
+show configured layers
+    bitbake-layers show-layers
+
+show version of packages
+    bitbake --show-versions 
+
+show recipes/packages provided by layers
+    bitbake-layers show-recipes
+
 Delete sstate cache folder (determines which recipes need to rebuild)
     rm -rf sstate-cache/
 
 Delete tmp directory (final images)
     rm -rf tmp/
 
-Run bitbake
+Run bitbake to build final image
     bitbake core-image-minimal
+
+
+
 
 
 

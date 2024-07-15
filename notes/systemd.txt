@@ -3,6 +3,7 @@ Boot Linux console as root without prompting for user
 	Add "-a root" to ExecStart e.g.:
 		ExecStart=-/sbin/agetty -a root --noclear %I $TERM
 
+
 Startup service files and links to /lib/systemd/system
 	/etc/systemd/system/
 
@@ -15,6 +16,9 @@ Enable server by creating a link in /etc/systemd/system/
 	
 List installed services
 	systemctl list-unit-files --type=service
+	
+List running services
+	systemctl list-units --type=service --state=running
 	
 Service status
 	enabled	has symlink in /etc/systemd/system/
@@ -73,6 +77,7 @@ Show logs
 --no-pager
 export SYSTEMD_PAGER=''
 journalctl --vacuum-time=1seconds #clear logs
+
 
 --------------------------------------------------
 CHANGE RUN LEVEL

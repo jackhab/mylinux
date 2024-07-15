@@ -1,10 +1,10 @@
 ssh-keygen -f $HOME/.ssh/id_rsa_jackhab_bitbucket
 sudo apt install git -y
-git -c core.sshCommand="ssh -i "$HOME/.ssh/id_rsa_jackhab_bitbucket" clone git@bitbucket.org:jackhab/my-linux.git my
-cd my
+git -c core.sshCommand="ssh -i $HOME/.ssh/id_rsa_jackhab_bitbucket" clone git@bitbucket.org:jackhab/my-linux.git myconf
+cd myconf
 git config core.sshCommand "ssh -i $HOME/.ssh/id_rsa_jackhab_bitbucket"
 git config user.name "jackhab"
 git config user.email "jackhab@gmail.com"
-echo ". ~/my/bin/jenia-bash-init" >> ~/.bashrc
+echo ". ~/myconf/bin/jenia-bash-init" >> ~/.bashrc
 
 

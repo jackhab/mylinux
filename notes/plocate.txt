@@ -1,0 +1,38 @@
+-------------------------------------------------
+PLOCATE IS MUCH FASTER THAN NORMAIL LINUX LOCATE
+-------------------------------------------------
+
+#GET PLOCATE
+wget https://plocate.sesse.net/download/plocate-1.1.22.tar.gz
+tar xf plocate-1.1.22.tar.gz 
+cd plocate-1.1.22/
+
+
+#INSTALL DEPENDENCIES FROM REPO OR...
+sudo apt -y meson install liburing libzstd
+
+#ALTERNATIVELY INSTALL DEPENDENCIES FROM SOURCES
+git clone https://github.com/axboe/liburing.git
+cd liburing/
+./configure --cc=gcc --cxx=g++;
+make -j$(nproc);
+sudo make install;
+cd ..
+git clone https://github.com/facebook/zstd.git
+cd  zstd/
+make && sudo make install 
+make -j4 && sudo make install 
+cd ..
+
+#BUILD AND INSTALL PLOCATE
+meson setup obj
+cd obj
+ninja
+sudo addgroup --system plocate
+sudo ninja install
+sudo systemctl enable plocate-updatedb.timer
+sudo updatedb
+
+#IN CASE UPDATEDB FAILS TO CREATE PLOCATE.DB TRY DOING IT MANUALLY
+sudo plocate-build /var/lib/mlocate/mlocate.db  /var/local/lib/plocate/plocate.db
+sudo chmod 666 /var/local/lib/plocate/*

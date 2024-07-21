@@ -4,6 +4,7 @@ LINKS
 Layer index
     https://layers.openembedded.org/layerindex/branch/master/layers/
 
+
 -------------------------------------------------
 FULL REBUILD
 -------------------------------------------------
@@ -29,12 +30,47 @@ Run bitbake to build final image
     bitbake core-image-minimal
 
 
+-------------------------------------------------
+DEBUG
+-------------------------------------------------
+find final IMAGE_ROOTFS_SIZE variable value
+    bitbake -e core-image-minimal | grep ^IMAGE_ROOTFS_SIZE=
+
+
+-------------------------------------------------
+KERNEL
+-------------------------------------------------
+virtual/kernel is a provider which contains and allows kernel version switching
+    linux-yocto
+    linux-yocto-rt
+    linux-stable
+    exact version selected in local.conf
+        PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
+
+check kernel version
+    bitbake -e virtual/kernel | grep "^PV="
+
+menuconfig
+    bitbake linux-yocto -c menuconfig
+
+-------------------------------------------------
+CROSS SDK
+-------------------------------------------------
+create SDK installation package in build/tmp/deploy/sdk/
+    bitbake core-image-minimal -c populate_sdk
+
+
+-------------------------------------------------
+FILE TREE
+-------------------------------------------------
+
+build/tmp/work/<machine>/<kernel-recipe>/linux-yocto/<version>/build/.config
 
 
 
 
 
-#################### NOW ####################
+####################  ####################
 Working in a new sxbit layer, trying to add
 lecbt-ethernet-config.cfg	OK
 

@@ -1,0 +1,3 @@
+ENTRY "=== MAIN ===" URL "."
+ENTRY "~" URL "/home/bamw/"
+ENTRY "/" URL "/"

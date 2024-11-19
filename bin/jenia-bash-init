@@ -34,9 +34,15 @@ alias ethtool='sudo ethtool'
 alias ssh='ssh -X'
 alias my-mount="mount | sort | column -t | grep -vP '(^none|^cgroup|^tmpfs)'"
 
+#git
+alias gts="git status"
+alias gtd="git diff --color-words -W -w"
+alias gtdt="git difftool -d"
+alias gtl="git log --graph --all --date-order --oneline -15"
+alias gtll="git log --graph --all --date-order --oneline"
+
 #open any file
 alias o='xdg-open'
-
 
 #fixes "Couldn't connect to accessibility bus" warning when using SSH
 export NO_AT_BRIDGE=1

@@ -38,8 +38,28 @@ alias my-mount="mount | sort | column -t | grep -vP '(^none|^cgroup|^tmpfs)'"
 alias gts="git status"
 alias gtd="git diff --color-words -W -w"
 alias gtdt="git difftool -d"
-alias gtl="git log --graph --all --date-order --oneline -15"
-alias gtll="git log --graph --all --date-order --oneline"
+#alias gtl="git log --graph --all --date-order --oneline -15"
+
+    LDate="%<(18,trunc)%ci"
+    LName="%<(5,trunc)%ae"
+    LHash="%C(auto)%h"
+    LMess="%C(white bold)%s%C(reset)"
+    LRefs="%C(auto)%d"
+    LWrap1="%w($(($Cols-3)),1,20)"
+    # alias gtl="git log -100 --all --graph --decorate=short --color $extraParams \
+    #  --format=format:\"$LWrap$LHash $LDate $LName $LMess $LRefs\""
+gtl() {
+    LDate="%<(18,trunc)%ci"
+    LName="%<(5,trunc)%ae"
+    LHash="%C(auto)%h"
+    LMess="%C(white bold)%s%C(reset)"
+    LRefs="%C(auto)%d"
+    LWrap1="%w($(($Cols-3)),1,20)"
+
+    git log -30 --all --graph --decorate=short --color \
+    $extraParams \
+    --format=format:"$LWrap$LHash $LDate $LName $LMess $LRefs" $*  | perl -lpe 's/(?<=\s)\d\d(\d\d)(?=-)/\1/g ; s/\.\. / /g'
+}
 
 #open any file
 alias o='xdg-open'

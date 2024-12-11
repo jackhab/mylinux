@@ -45,11 +45,10 @@ GitLog() {
     LName="%<(5,trunc)%ae"
     LHash="%C(auto)%h"
     LMess="%C(white bold)%s%C(reset)"
-    LRefs="%C(auto)%d"
-    LWrap1="%w($(($Cols-3)),1,20)"
+    LRefs="%C(auto)%D"
     CmdLog="git log -100 --all --graph --decorate=short --color $extraParams \
-     --format=format:\"$LWrap$LHash $LDate $LName $LMess $LRefs\""
-     
+     --format=format:\"$LHash $LDate $LName $LRefs %n %x20%x20%x20%x20%x20%x20 $LMess \""
+
     #suppress status error in case there is no working tree
     CmdStat="git status -s -b -u 2>/dev/null"
 
@@ -67,7 +66,7 @@ GitLog() {
 
     echo
 
-    eval $CmdLog --color=always | head -n $LogLines | perl -lpe 's/(?<=\s)\d\d(\d\d)(?=-)/\1/g ; s/\.\. / /g'
+    eval $CmdLog --color=always | head -n $LogLines | perl -lpe 's/(?<=\s)\d\d(\d\d)(?=-)/\1/g ; s/\.\. / /g ; s|origin/|O/|g'
 
     echo
 
@@ -81,7 +80,7 @@ GitLog() {
 GitFetch() {
     while true ; do
         git fetch --all --prune &> /dev/null
-        sleep 3
+        sleep 10
     done
 }
 

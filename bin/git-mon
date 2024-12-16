@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #reset terminal colors on exit
-trap 'tput cnorm ; kill $(jobs -p)' EXIT
+trap 'stty sane ; tput cnorm ; kill $(jobs -p)' EXIT
 
 extraParams=$*
 
@@ -11,10 +11,13 @@ Main() {
 	#hide cursor
 	tput civis
 
-    Prev="/tmp/git-mon-prev"
-    Now="/tmp/git-mon-now"
+    #don't echo key press
+    stty -echo -icanon time 0 min 0
 
-    rm -rf $Prev $Now
+    statusPrev="/tmp/git-mon-prev"
+    statusNow="/tmp/git-mon-now"
+
+    rm -rf $statusPrev $statusNow
 
     #update remote repo log in background
     GitFetch &
@@ -24,15 +27,28 @@ Main() {
         Cols=$(tput cols)
 
         #save current git status
-        GitLog &> $Now
+        GitLog &> $statusNow
 
         #include screen size with status so that redraw will be triggered on terminal resize
-        echo $Lines $Cols >> $Now
+        echo $Lines $Cols >> $statusNow
 
         #print on change only to prevent screen flicker
-        diff $Now $Prev &>/dev/null || { tput clear ; GitLog ; }
+        diff $statusNow $statusPrev &>/dev/null || { tput clear ; GitLog ; }
 
-        mv -f $Now $Prev &>/dev/null
+        mv -f $statusNow $statusPrev &>/dev/null
+
+        #non-blocking key press read
+        key=$(dd bs=1 count=1 2>/dev/null)
+
+        #launch things
+        if [[ -n $key ]] ; then
+            clear
+            rm -f $statusPrev
+            [[ "$key" == "d" ]] && git difftool -d 
+            [[ "$key" == "D" ]] && git diff --color=always | less -R
+            
+            continue
+        fi
 
         sleep 2
     done
@@ -46,8 +62,9 @@ GitLog() {
     LHash="%C(auto)%h"
     LMess="%C(white bold)%s%C(reset)"
     LRefs="%C(auto)%D"
-    CmdLog="git log -100 --all --graph --decorate=short --color $extraParams \
-     --format=format:\"$LHash $LDate $LName $LRefs %n %x20%x20%x20%x20%x20%x20 $LMess \""
+    [[ -n $extraParams ]] && All="" || All="--all"
+    CmdLog="git log -100 $All --graph --decorate=short --color $extraParams \
+     --format=format:\"$LHash $LDate $LName $LRefs %n %x20%x20 $LMess \""
 
     #suppress status error in case there is no working tree
     CmdStat="git status -s -b -u 2>/dev/null"
